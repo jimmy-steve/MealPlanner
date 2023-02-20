@@ -8,6 +8,7 @@ import Planning from "./components/Planning";
 import AddUser from "./components/AddUser";
 import RecipeListInterne from "./components/RecipeListInterne";
 import RecipeListExterne from "./components/RecipeListExterne";
+import RecipeDetails from "./components/RecipeDetails";
 import "./App.css";
 
 const UserConnected = ({ setUserInfo, userInfo }) => {
@@ -44,6 +45,7 @@ function App() {
         <Routes>
         <Route path="recipeListExterne" element={<RecipeListExterne />} />
         <Route path="recipeListInterne" element={<RecipeListInterne />} />
+        <Route path="recipeDetails" element={<RecipeDetails />} />
           <Route path="addUser" element={<AddUser />} />
           <Route path="*" element={<Login />} />
           <Route path="login" element={<Login />} />

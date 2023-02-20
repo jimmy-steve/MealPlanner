@@ -1,8 +1,23 @@
 import React from "react";
+import moment from 'moment';
+
 
 const ScheduleTable = (props) => {
     const schedule = props.schedule;
     const [selectedCell, setSelectedCell] = React.useState(null);
+
+
+    const today = moment();
+    const startOfWeek = moment().startOf('week');
+    const endOfWeek = moment().endOf('week');
+    const days = [];
+
+    for (let day = startOfWeek; day <= endOfWeek; day = day.clone().add(1, 'd')) {
+      days.push(day);
+    }
+
+    console.log(days);
+
   
     const handleCellClick = (cell) => {
       setSelectedCell(cell);
@@ -13,17 +28,16 @@ const ScheduleTable = (props) => {
     return (
       <div className="schedule-table">
         <table className="table bg-white">
-          <thead>
-            <tr>
-              <th>Dimanche 01/01/2023</th>
-              <th>Lundi 02/01/2023</th>
-              <th>Mardi 03/01/2023</th>
-              <th>Mercredi 04/01/2023</th>
-              <th>Jeudi 05/01/2023</th>
-              <th>Vendredi 06/01/2023</th>
-              <th className="last">Samedi 07/01/2023</th>
-            </tr>
-          </thead>
+        <thead>
+          <tr>
+            {days.map(day => (
+              <th key={day.format('dddd DD/MM/YYYY')}>
+                {day.format('dddd DD/MM/YYYY')}
+              </th>
+            ))}
+          </tr>
+        </thead>
+
           <tbody>
             {schedule.map((row, i) => (
               <tr key={i}>
