@@ -70,8 +70,7 @@ class Login extends React.Component {
                                 id="email"
                                 type="text"
                                 className="form-control"
-                                name="email"
-                                value="6189819@bdeb.qc.ca"
+                                name="email"                                
                                 onChange={this.handleChange}
                               ></input>
                             </div>
@@ -83,7 +82,6 @@ class Login extends React.Component {
                                 type="password"
                                 className="form-control"
                                 name="password"
-                                value="password"
                                 onChange={this.handleChange}
                               ></input>
                             </div>

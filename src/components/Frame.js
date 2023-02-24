@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import "./Frame.scss";
+import Planning from "./Planning";
+import RecipesList from "./RecipesList";
 
 const Frame = () => {
   const [key, setKey] = useState("home");
@@ -19,7 +21,8 @@ const Frame = () => {
               eventKey="planning"
               title="Planification de la semaine"                             
               tabClassName="border rounded-top m-1 tab tab--planning"
-            >             
+            >
+              <Planning />  
             </Tab>
 
             <Tab
@@ -33,6 +36,7 @@ const Frame = () => {
               title="Liste des recettes"
               tabClassName="border rounded-top m-1 tab tab--recipes"
             >
+              <RecipesList />
             </Tab>
           </Tabs>
         </div>

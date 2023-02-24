@@ -6,12 +6,10 @@ const RecipeListInterne = () => {
   const [MealList, setMealList] = React.useState([]);
 
   const fetchMealListWithIngredient = () => {
-    axios
-      .get("http://localhost:8000/api/Recipes")
-      .then((response) => {
-        console.log(response.data);
-        setMealList(response.data);
-      });
+    axios.get("http://localhost:8000/api/Recipes").then((response) => {
+      console.log(response.data);
+      setMealList(response.data);
+    });
   };
 
   React.useEffect(() => {
@@ -23,19 +21,9 @@ const RecipeListInterne = () => {
       <h1>Ma liste de recette Interne</h1>
       <br />
 
-      
       <div class="container bootdey">
-        <div class="col-md-3">
+        <div class="col-md-3"></div>
 
-
-
-
-
-
-          
-        </div>
-
-        
         <div className="col-md-9">
           <div className="row product-list">
             {MealList.map((meal) => (
@@ -53,9 +41,7 @@ const RecipeListInterne = () => {
 
                   <div className="panel-body text-center">
                     <h4>
-                      <div  className="pro-title">
-                        {meal.title}
-                      </div>
+                      <div className="pro-title">{meal.title}</div>
                     </h4>
                     <p className="price">
                       Nombre de portions : {meal.servings}
@@ -66,9 +52,6 @@ const RecipeListInterne = () => {
             ))}
           </div>
         </div>
-
-
-
       </div>
     </div>
   );
