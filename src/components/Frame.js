@@ -13,25 +13,25 @@ const Frame = () => {
             id="controlled-tab-example"
             activeKey={key}
             onSelect={(k) => setKey(k)}
-            className="mb-3 m-1"
+            className="tabs mb-3 m-1"
           >
             <Tab
-              eventKey="home"
-              title="Home"
-              tabClassName="border rounded-top m-1"
+              eventKey="planning"
+              title="Planification de la semaine"                             
+              tabClassName="border rounded-top m-1 tab tab--planning"
             >             
             </Tab>
 
             <Tab
-              eventKey="profile"
-              title="Profile"
-              tabClassName="border rounded-top m-1"
+              eventKey="ingredients"
+              title="Ingrédients de la semaine"
+              tabClassName="border rounded-top m-1 tab tab--ingredients"
             >
             </Tab>
             <Tab
-              eventKey="contact"
-              title="Contact"
-              tabClassName="border rounded-top m-1"
+              eventKey="recipes"
+              title="Liste des recettes"
+              tabClassName="border rounded-top m-1 tab tab--recipes"
             >
             </Tab>
           </Tabs>

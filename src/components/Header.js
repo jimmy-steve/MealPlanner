@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import React from "react";
 import axios from "axios";
+import "./Header.scss";
 // import React from 'react';
 
 export default function Header({ userInfo, setUserInfo }) {
@@ -36,8 +37,8 @@ export default function Header({ userInfo, setUserInfo }) {
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <div className="navbar-brand mt-2 mt-lg-0">
-            <Link className="nav-link" to="/home">
-              <h2>MealPlanner</h2>
+            <Link className="nav-link" to="/frame">
+              <h2 className="nav--title">MealPlanner</h2>
             </Link>
           </div>
 
@@ -47,26 +48,12 @@ export default function Header({ userInfo, setUserInfo }) {
                 Liste de Recettes Interne
               </Link>
             </li>
-
-            <li className="nav-item">
-              <Link className="nav-link" to="/recipeListExterne">
-                Liste de Recettes Externe
-              </Link>
-            </li>
+            
             <li className="nav-item">
               <Link className="nav-link" to="/planning">
                 Planifier la semaine
               </Link>
-            </li>
-            <li className="nav-item">
-              <div className="nav-link">Liste d'ingrédients</div>
-            </li>
-
-            <li className="nav-item">
-              <Link className="nav-link" to="/recipeDetails">
-                Details d"une recette
-              </Link>
-            </li>
+            </li> 
           </ul>
         </div>
 
