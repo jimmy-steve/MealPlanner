@@ -4,7 +4,11 @@ import "./RecipeAdd.scss";
 
 function RecipeAdd() {
     return(
-        <div>test RecipeAdd</div>
+        <div>
+            <div className="m-3">
+                    <button id="addRecipe" name="addRecipe" type="button" className="btn btn-secondary">Ajouter une recette</button>
+            </div> 
+        </div>
     )
 }
 
