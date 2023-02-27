@@ -72,7 +72,7 @@ export default function Header({ userInfo, setUserInfo }) {
 
         <div className="d-flex align-items-center">
           <div className="text-reset me-3">
-            <div className="text-light">Bienvenue, {userInfo}</div>
+            <div className="text-light">Bienvenue, {userInfo.firstName}</div>
           </div>
 
           <div className="dropdown"></div>

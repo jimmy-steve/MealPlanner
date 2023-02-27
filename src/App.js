@@ -20,7 +20,7 @@ const UserConnected = ({ setUserInfo, userInfo }) => {
     axios.get("http://localhost:8000/api/Auth/user").then(
       (response) => {
         console.log(response.data);
-        setUserInfo(response.data.firstName);
+        setUserInfo({ firstName: response.data.firstName, id: response.data.id })
       },
       () => {
         if (location.pathname !== "/addUser") {
@@ -43,13 +43,13 @@ function App() {
       <UserConnected userInfo={userInfo} setUserInfo={setUserInfo} />
       <div className="App">
         <Routes>
-        <Route path="recipeListExterne" element={<RecipeListExterne />} />
-        <Route path="recipeListInterne" element={<RecipeListInterne />} />
-        <Route path="recipeDetails" element={<RecipeDetails />} />
+          <Route path="recipeListExterne" element={<RecipeListExterne />} />
+          <Route path="recipeListInterne" element={<RecipeListInterne />} />
+          <Route path="recipeDetails" element={<RecipeDetails />} />
           <Route path="addUser" element={<AddUser />} />
           <Route path="*" element={<Login />} />
           <Route path="login" element={<Login />} />
-          <Route path="home" element={<Home />} />
+          <Route path="home" element={<Home userInfo={userInfo}/>} />
           <Route path="planning" element={<Planning />} />
         </Routes>
       </div>
