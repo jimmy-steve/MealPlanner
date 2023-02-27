@@ -3,11 +3,10 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import Login from "./components/Login";
 import Header from "./components/Header";
-import Home from "./components/Home";
+import Frame from "./components/Frame";
 import Planning from "./components/Planning";
 import AddUser from "./components/AddUser";
 import RecipeListInterne from "./components/RecipeListInterne";
-import RecipeListExterne from "./components/RecipeListExterne";
 import "./App.css";
 
 const UserConnected = ({ setUserInfo, userInfo }) => {
@@ -42,12 +41,11 @@ function App() {
       <UserConnected userInfo={userInfo} setUserInfo={setUserInfo} />
       <div className="App">
         <Routes>
-        <Route path="recipeListExterne" element={<RecipeListExterne />} />
-        <Route path="recipeListInterne" element={<RecipeListInterne />} />
+          <Route path="recipeListInterne" element={<RecipeListInterne />} />         
           <Route path="addUser" element={<AddUser />} />
           <Route path="*" element={<Login />} />
           <Route path="login" element={<Login />} />
-          <Route path="home" element={<Home />} />
+          <Route path="frame" element={<Frame />} />
           <Route path="planning" element={<Planning />} />
         </Routes>
       </div>

@@ -70,7 +70,7 @@ class Login extends React.Component {
                                 id="email"
                                 type="text"
                                 className="form-control"
-                                name="email"
+                                name="email"                                
                                 onChange={this.handleChange}
                               ></input>
                             </div>
