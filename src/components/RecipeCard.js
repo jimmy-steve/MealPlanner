@@ -16,19 +16,25 @@ function RecipeCard() {
   }, []);
 
   return (
-    <div>
+    <div className="flex">
       {mealList.map((meal) => (
         <div key={meal.id}>
-          <div className="border rounded m-3 card--container">
+          <div className="m-3 card--container">
             <div className="card--img--container">
-              <img src="./image1.jpg" alt="meal" className="card--img" />
+              <img
+                src={meal.pictureUrl}
+                alt="meal"
+                className="card--img"
+              />
             </div>
             <div className="card--text--container">
               <h4>{meal.title}</h4>
               <div className="row">
                 <div className="col">
                   <span className="material-symbols-outlined">av_timer</span>
-                  <span className="align-top m-1">{meal.preparationTime} min</span>
+                  <span className="align-top m-1">
+                    {meal.preparationTime} min
+                  </span>
                 </div>
                 <div className="col">
                   <span className="material-symbols-outlined">cooking</span>

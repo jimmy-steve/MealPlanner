@@ -41,20 +41,6 @@ export default function Header({ userInfo, setUserInfo }) {
               <h2 className="nav--title">MealPlanner</h2>
             </Link>
           </div>
-
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link className="nav-link" to="/recipeListInterne">
-                Liste de Recettes Interne
-              </Link>
-            </li>
-            
-            <li className="nav-item">
-              <Link className="nav-link" to="/planning">
-                Planifier la semaine
-              </Link>
-            </li> 
-          </ul>
         </div>
 
         <div className="d-flex align-items-center">
