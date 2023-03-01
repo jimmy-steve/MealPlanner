@@ -6,7 +6,7 @@ import Planning from "./Planning";
 import RecipesList from "./RecipesList";
 
 const Frame = () => {
-  const [key, setKey] = useState("home");
+  const [key, setKey] = useState("planning");
   return (
     <div className="container-fluid">
       <div className="row">
@@ -19,18 +19,17 @@ const Frame = () => {
           >
             <Tab
               eventKey="planning"
-              title="Planification de la semaine"                             
+              title="Planification de la semaine"
               tabClassName="border rounded-top m-1 tab tab--planning"
             >
-              <Planning />  
+            <Planning />
             </Tab>
 
             <Tab
               eventKey="ingredients"
               title="Ingrédients de la semaine"
               tabClassName="border rounded-top m-1 tab tab--ingredients"
-            >
-            </Tab>
+            ></Tab>
             <Tab
               eventKey="recipes"
               title="Liste des recettes"

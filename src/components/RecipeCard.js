@@ -18,12 +18,12 @@ function RecipeCard() {
   return (
     <div className="flex">
       {mealList.map((meal) => (
-        <div key={meal.id}>
+        <div key={meal.recipeId}>
           <div className="m-3 card--container">
             <div className="card--img--container">
               <img
                 src={meal.pictureUrl}
-                alt="meal"
+                alt={meal.title}
                 className="card--img"
               />
             </div>

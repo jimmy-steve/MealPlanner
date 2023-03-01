@@ -31,7 +31,7 @@ class Login extends React.Component {
       })
       .then((response) => {
         console.log(response.data.message); // Affiche "success"
-        this.props.history("/home");
+        this.props.history("/frame");
       })
       .catch((error) => {
         console.log(error);
@@ -70,7 +70,7 @@ class Login extends React.Component {
                                 id="email"
                                 type="text"
                                 className="form-control"
-                                name="email"                                
+                                name="email"
                                 onChange={this.handleChange}
                               ></input>
                             </div>

@@ -40,9 +40,9 @@ const Planning = () => {
         setEvents(mappedEvents);
       });
   }; // ajout de la fermeture de la fonction
-  React.useEffect(() => {
-    fetchDayListByUser();
-  }, []);
+  // React.useEffect(() => {
+  //   fetchDayListByUser();
+  // }, []);
 
   // const events = [
   //   {
@@ -184,7 +184,7 @@ const Planning = () => {
         </div>
       </div>
       <br></br>
-      <hr class="border border-danger border-3 opacity-75"/>
+      <hr className="border border-danger border-3 opacity-75"/>
       <br></br>
       <div className="container-fluid">
         <div className="col-10 mx-auto">
