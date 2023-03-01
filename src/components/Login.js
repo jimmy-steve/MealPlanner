@@ -9,7 +9,7 @@ class Login extends React.Component {
     this.state = { userData: {} };
     //
     // TODO: bind this to handleChange and onSubmit
-    //  https://reactjs.org/docs/handling-events.html
+    //https://reactjs.org/docs/handling-events.html
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }

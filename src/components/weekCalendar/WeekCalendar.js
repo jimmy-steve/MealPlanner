@@ -3,85 +3,94 @@ import "dayjs/locale/fr"; // importer la locale "fr"
 import "./WeekCalendar.scss";
 import React, { useState } from "react";
 import CardRecipe from "./CardRecipe";
-import axios from "axios";
-import { useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useNavigate } from "react-router-dom";
 
-function WeekCalendar({ userInfo }) {
-  // const userId = userInfo.id;
-  // console.log("userId", userId);
+function WeekCalendar({ props, dayList }) {
+  console.log("On est dans WeekCalendar");
+  console.log("dayList", dayList);
+  const navigate = useNavigate();
 
   const [currentWeek, setCurrentWeek] = useState(dayjs().startOf("week"));
-  const [recipeList, setRecipeList] = useState([]);
-  const [cells, setCells] = useState([]);
 
-//   const weekDays = [
-//     dayjs().startOf("week").add(1, "day"),
-//     dayjs().startOf("week").add(2, "day"),
-//     dayjs().startOf("week").add(3, "day"),
-//     dayjs().startOf("week").add(4, "day"),
-//     dayjs().startOf("week").add(5, "day"),
-//     dayjs().startOf("week").add(6, "day"),
-//     dayjs().startOf("week").add(7, "day"),
-//   ];
+  const weekDays = [
+    dayjs().startOf("week").add(1, "day"),
+    dayjs().startOf("week").add(2, "day"),
+    dayjs().startOf("week").add(3, "day"),
+    dayjs().startOf("week").add(4, "day"),
+    dayjs().startOf("week").add(5, "day"),
+    dayjs().startOf("week").add(6, "day"),
+    dayjs().startOf("week").add(7, "day"),
+  ];
 
-//   // initialiser une liste pour chaque jour de la semaine
-//   const [mondayList, setMondayList] = useState([]);
-//   const [tuesdayList, setTuesdayList] = useState([]);
-//   const [wednesdayList, setWednesdayList] = useState([]);
-//   const [thursdayList, setThursdayList] = useState([]);
-//   const [fridayList, setFridayList] = useState([]);
-//   const [saturdayList, setSaturdayList] = useState([]);
-//   const [sundayList, setSundayList] = useState([]);
-
-  // useEffect(() => {
-  //   var userIdTest = 1;
-  //   axios
-  //     .get("http://localhost:8000/api/Recipes/getRecipeByUser/" + userIdTest)
-  //     .then((response) => {
-  //       console.log(response.data);
-  //       setCells(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, []);
+  // initialiser une liste de recettes pour chaque jour de la semaine
+  const [mondayRecipes, setMondayRecipes] = useState([
+    { name: "Recette 1", date: weekDays[0] },
+    { name: "Recette 2", date: weekDays[0] },
+    { name: "Empty", date: weekDays[0] },
+  ]);
+  const [tuesdayRecipes, setTuesdayRecipes] = useState([
+    { name: "Recette 3", date: weekDays[1] },
+  ]);
+  const [wednesdayRecipes, setWednesdayRecipes] = useState([]);
+  const [thursdayRecipes, setThursdayRecipes] = useState([]);
+  const [fridayRecipes, setFridayRecipes] = useState([]);
+  const [saturdayRecipes, setSaturdayRecipes] = useState([]);
+  const [sundayRecipes, setSundayRecipes] = useState([
+    { name: "Recette 4", date: weekDays[6] },
+  ]);
 
   const handleRecipeClick = (cell, index) => {
     const recipe = cell.recipes[index];
     console.log(
       `Clicked on recipe ${recipe.label} on ${cell.date} ${cell.active}`
     );
-    // Ajoutez ici le code pour gérer le clic sur la recette avec la date correspondante
-    console.log("Selected cell:", cell);
+
     if (!cell.active) {
       console.log("La case est inactive");
-    } else {
-      console.log("La case est active");
+      return;
     }
 
-    // Ajouter un bouton de suppression
-    cell.recipes[index] = {
-      label: recipe.label,
-      deleted: true, // Ajouter un indicateur pour supprimer la recette
-    };
-    setCells([...cells]); // Mettre à jour la liste de cellules
+    const updatedRecipes = cell.recipes.map((recipe, i) => {
+      if (i === index) {
+        return { ...recipe, deleted: true };
+      }
+      return recipe;
+    });
+
+    switch (cell.date.getDay()) {
+      case 1:
+        setMondayRecipes(updatedRecipes);
+        break;
+      case 2:
+        setTuesdayRecipes(updatedRecipes);
+        break;
+      case 3:
+        setWednesdayRecipes(updatedRecipes);
+        break;
+      case 4:
+        setThursdayRecipes(updatedRecipes);
+        break;
+      case 5:
+        setFridayRecipes(updatedRecipes);
+        break;
+      case 6:
+        setSaturdayRecipes(updatedRecipes);
+        break;
+      case 0:
+        setSundayRecipes(updatedRecipes);
+        break;
+      default:
+        break;
+    }
   };
 
-  // const addRecipe = (cell, recipe) => {
-  //     cell.recipes.push({label: recipe, deleted: false});
-  //     setCells([...cells]);
-  // };
-
-  // function addRecipe(newRecipe) {
-  //     setRecipeList([...recipeList, newRecipe]);
-  // }
-
-  function handleDeleteRecipe(index) {
-    const updatedRecipeList = [...recipeList];
-    updatedRecipeList.splice(index, 1);
-    setRecipeList(updatedRecipeList);
-  }
+  const addRecipe = () => {
+    const eventKey = "recipes";
+    const searchParams = new URLSearchParams();
+    searchParams.append("tab", eventKey);
+    navigate("/frame?" + searchParams.toString());
+  };
 
   function prevWeek() {
     const newCurrentWeek = currentWeek.subtract(1, "week");
@@ -96,15 +105,20 @@ function WeekCalendar({ userInfo }) {
   function renderDays() {
     const days = [];
     const startOfWeek = currentWeek.startOf("week");
+    const weekRecipes = [
+      mondayRecipes,
+      tuesdayRecipes,
+      wednesdayRecipes,
+      thursdayRecipes,
+      fridayRecipes,
+      saturdayRecipes,
+      sundayRecipes,
+    ];
 
     for (let i = 0; i < 7; i++) {
       const date = startOfWeek.add(i, "day");
-      const recipes = [
-        { label: "Recette 1" },
-        { label: "Recette 2" },
-        { label: "Recette 3" },
-      ];
-      const cell = { date: date, recipes: recipes, active: recipes.length > 0 }; // Ajout de la propriété "active"
+      const recipes = weekRecipes[i];
+      const cell = { date: date, recipes: recipes, active: recipes.length > 0 };
       days.push(
         <div key={date.toString()} className="week-calendar__day border mt-3">
           <div className="week-calendar__day-label text-start mx-3">
@@ -113,21 +127,27 @@ function WeekCalendar({ userInfo }) {
               {date.format("D")}
             </span>
           </div>
-          {/* Utiliser la méthode "locale" pour définir la locale "fr" et la méthode "format" pour spécifier le format */}
           {cell.recipes.map((recipe, j) => (
             <div
               key={`${date.toString()}-${j}`}
               className="week-calendar__day-cell col-10"
               onClick={() => handleRecipeClick(cell, j)}
             >
-              <CardRecipe
-                key={j}
-                label={recipe.label}
-                index={j}
-                onDelete={handleDeleteRecipe}
-              />
+              <CardRecipe key={j} label={recipe.name} index={j} />
             </div>
           ))}
+          {/* Ajouter une case vide si aucune recette n'est planifiée */}
+          {!cell.active && (
+            <div className="week-calendar__day-cell col-10">
+              <div className="card empty-card"></div>
+              <button
+                className="btn btn-outline-secondary empty-card-btn"
+                onClick={addRecipe}
+              >
+                + Ajouter une recette
+              </button>
+            </div>
+          )}
         </div>
       );
     }
@@ -162,4 +182,9 @@ function WeekCalendar({ userInfo }) {
   );
 }
 
-export default WeekCalendar;
+// export default WeekCalendar;
+//eslint-disable-next-line
+export default function (props) {
+  const history = useNavigate();
+  return <WeekCalendar {...props} history={history} />;
+}

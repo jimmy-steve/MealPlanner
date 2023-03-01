@@ -1,19 +1,23 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import SimpleModal from "./SimpleModal";
 import "./AddUser.scss";
 
 class AddUser extends React.Component {
   constructor() {
     super();
-    this.state = { userData: {} };
+    this.state = { userData: {} , showModal: false };
   }
 
   handleChange = (event) => {
     let currentState = { ...this.state.userData };
     currentState[event.target.name] = event.target.value;
     this.setState({ userData: currentState });
+  };
+
+  handleCloseModal = () => {
+    this.setState({ showModal: false });
   };
 
   onSubmit = (event) => {
@@ -32,12 +36,14 @@ class AddUser extends React.Component {
         this.props.history("/login");
       })
       .catch((error) => {
-        alert("Une erreur s'est produite : " + error.message);
+        this.setState({ showModal: true });
+        // alert("Une erreur s'est produite : " + error.message);
       });
   };
 
   render() {
     return (
+      <>
       <div className="add-user-container">
         <div>
           <h1>M'inscrire</h1>
@@ -96,6 +102,15 @@ class AddUser extends React.Component {
           </div>
         </div>
       </div>
+
+      <SimpleModal
+      title={"Mail déja utilisé"}
+      bodyTxt={"Cet email est déja utilisé, merci d'en saisir un autre"}
+      handleCloseModal={this.handleCloseModal}
+      showModal={this.state.showModal}
+      ></SimpleModal>
+
+</>
     );
   }
 }

@@ -43,23 +43,13 @@ export default function Header({ userInfo, setUserInfo }) {
           </div>
 
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link className="nav-link" to="/recipeListInterne">
-                Liste de Recettes Interne
-              </Link>
-            </li>
-            
-            <li className="nav-item">
-              <Link className="nav-link" to="/planning">
-                Planifier la semaine
-              </Link>
-            </li> 
+
           </ul>
         </div>
 
         <div className="d-flex align-items-center">
           <div className="text-reset me-3">
-            <div className="text-light">Bienvenue, {userInfo}</div>
+            <div className="text-light">Bienvenue, {userInfo.firstName}</div>
           </div>
 
           <div className="dropdown"></div>
