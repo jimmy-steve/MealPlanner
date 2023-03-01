@@ -6,7 +6,7 @@ import Planning from "./Planning";
 import RecipesList from "./RecipesList";
 
 const Frame = () => {
-  const [key, setKey] = useState("home");
+  const [key, setKey] = useState("planning");
   return (
     <div className="container-fluid">
       <div className="row">
