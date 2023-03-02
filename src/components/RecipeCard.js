@@ -2,18 +2,20 @@ import React from "react";
 import axios from "axios";
 import "./RecipeCard.scss";
 
-function RecipeCard() {
-  const [mealList, setMealList] = React.useState([]);
+function RecipeCard(props) {
+  const [mealList, setMealList] = React.useState([props.allRecipes]);
 
-  const fetchMealListWithIngredient = () => {
-    axios.get("http://localhost:8000/api/Recipes").then((response) => {
-      setMealList(response.data);
-    });
-  };
+  // const fetchMealListWithIngredient = () => {
+  //   axios.get(`http://localhost:8000/api/Recipes?userId${props.userId}`).then((response) => {
+  //     setMealList(response.data);
+  //   });
+  // };
 
-  React.useEffect(() => {
-    fetchMealListWithIngredient();
-  }, []);
+  // React.useEffect(() => {
+  //   fetchMealListWithIngredient();
+  // }, []);
+
+  
 
   const mealElements = mealList.map((meal) => (
     <div key={meal.recipeId}>

@@ -57,7 +57,7 @@ const Frame = ({ userInfo }) => {
               title="Liste des recettes"
               tabClassName="border rounded-top m-1 tab tab--recipes"
             >
-              <RecipesList />
+              <RecipesList userId={userId} />
             </Tab>
           </Tabs>
         </div>
