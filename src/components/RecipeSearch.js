@@ -8,6 +8,8 @@ function RecipeSearch() {
       const title = document.getElementById("title").value.trim();
       const ingredient1 = document.getElementById("ingredient1").value.trim();
       const ingredient2 = document.getElementById("ingredient2").value.trim();
+      const exclusion1 = document.getElementById("exclusion1").value.trim();
+      const exclusion2 = document.getElementById("exclusion2").value.trim();
       const queryParams = [];
 
       if (title) {
@@ -25,6 +27,19 @@ function RecipeSearch() {
         queryParams.push(`ingredients=${ingredients}`);
       } else if (ingredients.length > 0) {
         queryParams.push(`ingredients=${ingredients.join(",")}`);
+      }
+
+      const exclusions = [];
+      if (exclusion1) {
+        exclusions.push(encodeURIComponent(exclusion1));
+      }
+      if (exclusion2) {
+        exclusions.push(encodeURIComponent(exclusion2));
+      }
+      if (exclusions.length === 0) {
+        queryParams.push(`exclusions=${exclusions}`);
+      } else if (exclusions.length > 0) {
+        queryParams.push(`exclusions=${exclusions.join(",")}`);
       }
 
       const queryUrl = `http://localhost:8000/api/Recipes/Search?${queryParams.join(
