@@ -1,0 +1,64 @@
+.week-calendar {
+  padding: 10px;
+  margin: 0 auto;
+}
+
+.week-calendar__header {
+  margin: 5px;
+  display: flex;
+}
+.week-calendar__header button {
+  margin-left: 10px;
+  color: blue;
+}
+
+.week-calendar__day {
+  display: inline-block;
+  width: calc(100% / 7);
+  vertical-align: top;
+  text-align: center;
+  padding: 10px 5px;
+}
+
+.week-calendar__day-label {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.week-calendar__day-number {
+  font-size: 24px;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+.week-calendar__day-cell {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 50px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.hero {
+  padding-bottom: 37.5%; /* = ( 600 / 1600 ) x 100 */
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)),
+    url("./burger.jpg") center center fixed no-repeat;
+  background-size: cover;
+}
+.card-title {
+  color: aliceblue;
+  margin-top: auto; /* pour descendre le titre en bas */
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ); /* pour ajouter un léger noircissement autour du texte */
+}
+// .card-body {
+//   /* Ce conteneur doit avoir un positionnement relatif */
+//   position: relative;
+//   /* On peut indiquer la hauteur de notre choix */
+//   height: 100px;
+// }
