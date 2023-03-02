@@ -7,7 +7,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 
 function WeekCalendar({ props, dayList }) {
-  console.log("On est dans WeekCalendar");
   console.log("dayList", dayList);
   const navigate = useNavigate();
 
