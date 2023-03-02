@@ -60,9 +60,7 @@ class AddUser extends React.Component {
                               </h3>
                             </div>
 
-                            <h4 className=" mb-0 le_titre_de_la_page text-center">
-                              Register
-                            </h4>
+                            <h4 className=" mb-0 text-center">Register</h4>
                             <p className="text-muted mt-2 mb-5">
                               Enter your email address and password to access to
                               our beautiful app.
@@ -141,7 +139,7 @@ class AddUser extends React.Component {
                           <div className="account-block rounded-right">
                             <div className="overlay rounded-right"></div>
                             <div className="account-testimonial">
-                              <h4 className="text-white mb-4">
+                              <h4 className="text-white mb-4 app--title">
                                 Bienvenue ! Welcome !
                               </h4>
                               <p className="lead text-white">

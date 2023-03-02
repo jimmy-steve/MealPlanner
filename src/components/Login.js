@@ -66,9 +66,7 @@ class Login extends React.Component {
                               </h3>
                             </div>
 
-                            <h5 className=" mb-0 le_titre_de_la_page text-center">
-                              Login
-                            </h5>
+                            <h5 className=" mb-0 text-center ">Login</h5>
                             <p className="text-muted mt-2 mb-5">
                               Enter your email address and password to access to
                               our beautiful app.
@@ -77,6 +75,18 @@ class Login extends React.Component {
                             <form onSubmit={this.onSubmit}>
                               <div className="form-group">
                                 <label htmlFor="email">Email</label>
+
+                                <input
+                                  id="email"
+                                  type="text"
+                                  className="form-control"
+                                  name="email"
+                                  onChange={this.handleChange}
+                                ></input>
+                              </div>
+                              <div className="form-group mb-5">
+                                <label htmlFor="password">Password</label>
+
                                 <input
                                   id="password"
                                   type="password"
@@ -100,9 +110,9 @@ class Login extends React.Component {
                           <div className="account-block rounded-right">
                             <div className="overlay rounded-right"></div>
                             <div className="account-testimonial">
-                              <h4 className="text-white mb-4">
+                              <div className="app--title">
                                 Bienvenue ! Welcome !
-                              </h4>
+                              </div>
                               <p className="lead text-white">
                                 "Best investment i made for a long time. Can
                                 only recommend it for other users."
