@@ -16,6 +16,7 @@ console.log('On est dans planning avec id de '+props.userId);
       .then((response) => {
         setDayList(response.data);
       });
+
   };
 
 
@@ -29,7 +30,7 @@ console.log('On est dans planning avec id de '+props.userId);
       <WeekCalendar dayList={DayList} {...props} history={history} />
 
       <br></br>
-      <hr class="border border-danger border-3 opacity-75" />
+
       <br></br>
       <div className="container-fluid">
         <div className="col-10 mx-auto"></div>

@@ -6,7 +6,6 @@ import Header from "./components/Header";
 import Frame from "./components/Frame";
 import Planning from "./components/Planning";
 import AddUser from "./components/AddUser";
-import RecipeListInterne from "./components/RecipeListInterne";
 import "./App.css";
 
 const UserConnected = ({ setUserInfo, userInfo }) => {
@@ -39,8 +38,6 @@ function App() {
     <div>
       <UserConnected userInfo={userInfo} setUserInfo={setUserInfo} />
       <div className="App">
-        <Routes>
-          <Route path="recipeListInterne" element={<RecipeListInterne />} />
           <Route path="addUser" element={<AddUser />} />
           <Route path="*" element={<Login />} />
           <Route path="login" element={<Login />} />

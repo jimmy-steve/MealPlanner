@@ -9,12 +9,7 @@ function RecipesList() {
     return (
         <div>
             <RecipeSearch />
-            <div className="m-2 recipe--card">
-                <RecipeCard />
-                <RecipeCard />
-                <RecipeCard />
-                <RecipeCard />
-            </div>            
+            <RecipeCard />
             <RecipeAdd />
         </div>
     )

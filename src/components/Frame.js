@@ -44,7 +44,7 @@ const Frame = ({ userInfo }) => {
               title="Planification de la semaine"
               tabClassName="border rounded-top m-1 tab tab--planning"
             >
-              <Planning history={navigate} userId={userId} />
+            <Planning history={navigate} userId={userId} />
             </Tab>
 
             <Tab
