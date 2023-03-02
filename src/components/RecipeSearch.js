@@ -23,24 +23,24 @@ function RecipeSearch() {
       if (ingredient2) {
         ingredients.push(encodeURIComponent(ingredient2));
       }
-      if (ingredients.length === 0) {
+      if (ingredients.length === 1) {
         queryParams.push(`ingredients=${ingredients}`);
-      } else if (ingredients.length > 0) {
+      } else if (ingredients.length > 1) {
         queryParams.push(`ingredients=${ingredients.join(",")}`);
       }
 
-      const exclusions = [];
-      if (exclusion1) {
-        exclusions.push(encodeURIComponent(exclusion1));
-      }
-      if (exclusion2) {
-        exclusions.push(encodeURIComponent(exclusion2));
-      }
-      if (exclusions.length === 0) {
-        queryParams.push(`exclusions=${exclusions}`);
-      } else if (exclusions.length > 0) {
-        queryParams.push(`exclusions=${exclusions.join(",")}`);
-      }
+      // const exclusions = [];
+      // if (exclusion1) {
+      //   exclusions.push(encodeURIComponent(exclusion1));
+      // }
+      // if (exclusion2) {
+      //   exclusions.push(encodeURIComponent(exclusion2));
+      // }
+      // if (exclusions.length === 1) {
+      //   queryParams.push(`exclusions=${exclusions}`);
+      // } else if (exclusions.length > 1) {
+      //   queryParams.push(`exclusions=${exclusions.join(",")}`);
+      // }
 
       const queryUrl = `http://localhost:8000/api/Recipes/Search?${queryParams.join(
         "&"
