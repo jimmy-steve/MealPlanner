@@ -21,6 +21,7 @@ export default function Header({ userInfo, setUserInfo }) {
   };
 
   return (
+
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
         <button
@@ -87,5 +88,14 @@ export default function Header({ userInfo, setUserInfo }) {
         </div>
       </div>
     </nav>
+
+
+
+
+
+
+
+
+
   );
 }

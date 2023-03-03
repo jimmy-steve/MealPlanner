@@ -21,7 +21,7 @@ console.log('On est dans planning avec id de '+props.userId);
 
 
   React.useEffect(() => {
-    fetchDayListByUser();
+    // fetchDayListByUser();
   }, []);
 
   return (

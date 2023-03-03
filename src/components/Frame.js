@@ -1,13 +1,33 @@
-import React, { useState } from "react";
+
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import "./Frame.scss";
 import Planning from "./Planning";
 import RecipesList from "./RecipesList";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+
+import React, { useState, useContext, useEffect } from "react";
+import { getMonth } from "./util";
+import CalendarHeader from "./calendar/CalendarHeader";
+import Sidebar from "./calendar/Sidebar";
+import Month from "./calendar/Month";
+import GlobalContext from "./context/GlobalContext";
+import EventModal from "./calendar/EventModal";
+
+
+
+
 
 const Frame = ({ userInfo }) => {
+  const [currenMonth, setCurrentMonth] = useState(getMonth());
+  const { monthIndex, showEventModal } = useContext(GlobalContext);
+
+
+  useEffect(() => {
+    setCurrentMonth(getMonth(monthIndex));
+  }, [monthIndex]);
+
+
    console.log("userInfo", userInfo);
    const userId = userInfo?.id;
    console.log("userId", userId);
@@ -44,7 +64,25 @@ const Frame = ({ userInfo }) => {
               title="Planification de la semaine"
               tabClassName="border rounded-top m-1 tab tab--planning"
             >
-            <Planning history={navigate} userId={userId} />
+
+
+      {showEventModal && <EventModal />}
+
+      <div className="h-screen flex flex-col">
+        <CalendarHeader />
+        <div className="flex flex-1">
+          <Sidebar />
+          <Month month={currenMonth} />
+        </div>
+      </div>
+
+
+
+
+
+
+
+            {/* <Planning history={navigate} userId={userId} /> */}
             </Tab>
 
             <Tab
