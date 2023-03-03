@@ -14,8 +14,13 @@ const Planning = (props) => {
     let userIdTest = 100;
     axios
       .get(
-        "http://localhost:8000/api/Days/" + userIdTest + "/byUserIdWithRecipe"
+        "http://localhost:8000/api/Days/" +
+          userIdTest +
+          "/byUserIdWithRecipeForCurrentWeek"
       )
+      // .get(
+      //   "http://localhost:8000/api/Recipes/getRecipesForCurrentWeek/"+userIdTest
+      // )
       // .get("http://localhost:8000/api/Days/"+props.userId+"/byUserIdWithRecipe")
       .then((response) => {
         setDayList(response.data);

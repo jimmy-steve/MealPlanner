@@ -6,8 +6,13 @@ function CardRecipe({ label, index, onAddRecipe }) {
   return (
     <div className="card recipe-card">
       <div className="card-body">
-      <CardRecipeItem label={label}/>
-        {/* <h5 className="card-title">{label}</h5> */}
+      <img
+            src={("image1.jpg")}
+            alt="test"
+            className="card--img"
+          />
+      {/* <CardRecipeItem label={label}/> */}
+      <h5 className="card-title">{label}</h5>
       </div>
     </div>
   );
