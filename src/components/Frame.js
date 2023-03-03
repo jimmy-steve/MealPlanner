@@ -9,12 +9,7 @@ import { useEffect } from "react";
 
 
 const Frame = ({ userInfo }) => {
-   console.log("userInfo", userInfo);
    const userId = userInfo?.id;
-   console.log("userId", userId);
-
-
-
   const navigate = useNavigate();
   let location = useLocation();
   const [key, setKey] = useState("planning");

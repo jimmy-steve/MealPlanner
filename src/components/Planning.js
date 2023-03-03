@@ -3,25 +3,21 @@ import axios from "axios";
 import "./Planning.scss";
 import WeekCalendar from "./weekCalendar/WeekCalendar";
 import { useNavigate } from "react-router-dom";
-import "./calendar.scss";
+
 
 const Planning = (props) => {
-  console.log("On est dans planning avec id de " + props.userId);
   const history = useNavigate();
   const [DayList, setDayList] = React.useState([]);
 
   const fetchDayListByUser = () => {
-    let userIdTest = 100;
+    let userIdTest = 1;
+
     axios
       .get(
-        "http://localhost:8000/api/Days/" +
+        "http://localhost:8000/api/Recipes/users/" +
           userIdTest +
-          "/byUserIdWithRecipeForCurrentWeek"
+          "/recipes/weekWithDate"
       )
-      // .get(
-      //   "http://localhost:8000/api/Recipes/getRecipesForCurrentWeek/"+userIdTest
-      // )
-      // .get("http://localhost:8000/api/Days/"+props.userId+"/byUserIdWithRecipe")
       .then((response) => {
         setDayList(response.data);
       });
@@ -46,7 +42,6 @@ const Planning = (props) => {
   );
 };
 
-// export default Planning;
 //eslint-disable-next-line
 export default function (props) {
   const history = useNavigate();
