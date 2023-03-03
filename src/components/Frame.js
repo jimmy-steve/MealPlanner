@@ -7,6 +7,7 @@ import RecipesList from "./RecipesList";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
+
 const Frame = ({ userInfo }) => {
    console.log("userInfo", userInfo);
    const userId = userInfo?.id;
@@ -57,7 +58,7 @@ const Frame = ({ userInfo }) => {
               title="Liste des recettes"
               tabClassName="border rounded-top m-1 tab tab--recipes"
             >
-              <RecipesList />
+              <RecipesList userId={userId} />
             </Tab>
           </Tabs>
         </div>

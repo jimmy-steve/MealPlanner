@@ -5,39 +5,89 @@ import React, { useState } from "react";
 import CardRecipe from "./CardRecipe";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 function WeekCalendar({ props, dayList }) {
+  console.log("On est dans WeekCalendar");
   console.log("dayList", dayList);
   const navigate = useNavigate();
 
   const [currentWeek, setCurrentWeek] = useState(dayjs().startOf("week"));
 
-  const weekDays = [
-    dayjs().startOf("week").add(1, "day"),
-    dayjs().startOf("week").add(2, "day"),
-    dayjs().startOf("week").add(3, "day"),
-    dayjs().startOf("week").add(4, "day"),
-    dayjs().startOf("week").add(5, "day"),
-    dayjs().startOf("week").add(6, "day"),
-    dayjs().startOf("week").add(7, "day"),
-  ];
-
   // initialiser une liste de recettes pour chaque jour de la semaine
-  const [mondayRecipes, setMondayRecipes] = useState([
-    { name: "Recette 1", date: weekDays[0] },
-    { name: "Recette 2", date: weekDays[0] },
-    { name: "Empty", date: weekDays[0] },
-  ]);
-  const [tuesdayRecipes, setTuesdayRecipes] = useState([
-    { name: "Recette 3", date: weekDays[1] },
-  ]);
+  const [mondayRecipes, setMondayRecipes] = useState([]);
+  const [tuesdayRecipes, setTuesdayRecipes] = useState([]);
   const [wednesdayRecipes, setWednesdayRecipes] = useState([]);
   const [thursdayRecipes, setThursdayRecipes] = useState([]);
+  const [thursdayRecipesName, setThursdayRecipesName] = useState([]);
   const [fridayRecipes, setFridayRecipes] = useState([]);
   const [saturdayRecipes, setSaturdayRecipes] = useState([]);
-  const [sundayRecipes, setSundayRecipes] = useState([
-    { name: "Recette 4", date: weekDays[6] },
-  ]);
+  const [sundayRecipes, setSundayRecipes] = useState([]);
+
+  useEffect(() => {
+    console.log("dayList", dayList);
+    const dateList = dayList.map((day) => day.date);
+    console.log("dateList", dateList);
+
+    const date1 = dayjs("2022-03-01T00:00:00");
+    const date2 = dayjs("2022-03-01T00:00:00");
+
+    if (date1.isSame(date2, "day")) {
+      console.log("Les dates sont égales");
+    } else {
+      console.log("Les dates sont différentes");
+    }
+
+    dateList.forEach((date) => {
+      const parsedDate = dayjs(date.date);
+      const dayOfWeek = parsedDate.format("dddd").toLowerCase();
+      console.log("dayOfWeek", dayOfWeek);
+
+      // const recipeList = date.recipes.map(recipe => recipe.name);
+
+      switch (dayOfWeek) {
+        case "monday":
+          console.log("adding date to mondayRecipes", parsedDate);
+          setMondayRecipes((prev) => [...prev, date]);
+          // setMondayRecipes(recipeList);
+          break;
+        case "tuesday":
+          console.log("adding date to tuesdayRecipes", parsedDate);
+          setTuesdayRecipes((prev) => [...prev, date]);
+          // setTuesdayRecipes(recipeList);
+          break;
+        case "wednesday":
+          console.log("adding date to wednesdayRecipes", parsedDate);
+          setWednesdayRecipes((prev) => [...prev, date]);
+          // setWednesdayRecipes(recipeList);
+          break;
+        case "thursday":
+          console.log("adding date to thursdayRecipes", parsedDate);
+          setThursdayRecipes((prev) => [...prev, date]);
+          //  setThursdayRecipes((prevRecipes) => [...prevRecipes, recipe]);
+          break;
+        case "friday":
+          console.log("adding date to fridayRecipes", parsedDate);
+          setFridayRecipes((prev) => [...prev, date]);
+          // setFridayRecipes(recipeList);
+          break;
+        case "saturday":
+          console.log("adding date to saturdayRecipes", parsedDate);
+          setSaturdayRecipes((prev) => [...prev, date]);
+          // setSaturdayRecipes(recipeList);
+          break;
+        case "sunday":
+          console.log("adding date to sundayRecipes", parsedDate);
+          setSundayRecipes((prev) => [...prev, date]);
+          // setSundayRecipes(recipeList);
+          break;
+        default:
+          break;
+      }
+    });
+  }, [dayList]);
+
+  console.log("mondayRecipes", mondayRecipes);
 
   const handleRecipeClick = (cell, index) => {
     const recipe = cell.recipes[index];
@@ -50,35 +100,29 @@ function WeekCalendar({ props, dayList }) {
       return;
     }
 
-    const updatedRecipes = cell.recipes.map((recipe, i) => {
-      if (i === index) {
-        return { ...recipe, deleted: true };
-      }
-      return recipe;
-    });
-
     switch (cell.date.getDay()) {
       case 1:
-        setMondayRecipes(updatedRecipes);
+        setMondayRecipes((prevRecipes) => [...prevRecipes, recipe]);
         break;
       case 2:
-        setTuesdayRecipes(updatedRecipes);
+        setTuesdayRecipes((prevRecipes) => [...prevRecipes, recipe]);
         break;
       case 3:
-        setWednesdayRecipes(updatedRecipes);
+        setWednesdayRecipes((prevRecipes) => [...prevRecipes, recipe]);
         break;
       case 4:
-        setThursdayRecipes(updatedRecipes);
+        setThursdayRecipes((prevRecipes) => [...prevRecipes, recipe]);
         break;
       case 5:
-        setFridayRecipes(updatedRecipes);
+        setFridayRecipes((prevRecipes) => [...prevRecipes, recipe]);
         break;
       case 6:
-        setSaturdayRecipes(updatedRecipes);
+        setSaturdayRecipes((prevRecipes) => [...prevRecipes, recipe]);
         break;
       case 0:
-        setSundayRecipes(updatedRecipes);
+        setSundayRecipes((prevRecipes) => [...prevRecipes, recipe]);
         break;
+
       default:
         break;
     }
@@ -118,6 +162,7 @@ function WeekCalendar({ props, dayList }) {
       const date = startOfWeek.add(i, "day");
       const recipes = weekRecipes[i];
       const cell = { date: date, recipes: recipes, active: recipes.length > 0 };
+
       days.push(
         <div key={date.toString()} className="week-calendar__day border mt-3">
           <div className="week-calendar__day-label text-start mx-3">
@@ -132,7 +177,7 @@ function WeekCalendar({ props, dayList }) {
               className="week-calendar__day-cell col-10"
               onClick={() => handleRecipeClick(cell, j)}
             >
-              <CardRecipe key={j} label={recipe.name} index={j} />
+              <CardRecipe key={j} label={thursdayRecipesName} index={j} />
             </div>
           ))}
           {/* Ajouter une case vide si aucune recette n'est planifiée */}
