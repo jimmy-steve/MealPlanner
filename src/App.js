@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import Login from "./components/Login";
 import Header from "./components/Header";
-import Frame from "./components/Frame";
+import Frame from "./components/MainFrame";
 import Planning from "./components/Planning";
 import AddUser from "./components/AddUser";
 import "./App.css";
