@@ -1,48 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate, useLocation } from "react-router-dom";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import "./MainFrame.scss";
 import Planning from "./Planning";
 import RecipesList from "./recipesList/RecipesList";
-import { useNavigate, useLocation } from "react-router-dom";
-import { useEffect } from "react";
-import axios from "axios";
+import "./MainFrame.scss";
 
-const MainFrame = ({ userInfo }) => {
-  console.log("userInfo", userInfo);
-  const userId = userInfo?.id;
-  console.log("userId", userId);
+const API_URL = "http://localhost:8000";
 
-  const navigate = useNavigate();
-  let location = useLocation();
-  const [key, setKey] = useState("planning");
-  const searchParams = new URLSearchParams(location.search);
-  const tabKey = searchParams.get("tab") || "planning";
+  const useActiveTab = (defaultTab) => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const [activeTab, setActiveTab] = useState(searchParams.get('tab') || defaultTab);
+  
+    useEffect(() => {
+      navigate(`?tab=${activeTab}`);
+    }, [activeTab, navigate]);
+  
+    return [activeTab, setActiveTab];
+  };
 
-  const [recipes, setRecipes] = useState([]);
+  const MainFrame = ({ userInfo }) => {    
+    const userId = userInfo?.id;    
 
-  const allRecipes = () => {
-    axios
-      .get(`http://localhost:8000/api/Recipes?userId=${userId}`)
-      .then((response) => {
-        setRecipes(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };  
+    const [activeTab, setActiveTab] = useActiveTab('planning');
+    const [recipes, setRecipes] = useState([]);
 
-  useEffect(() => {
-    allRecipes();
-  }, [allRecipes]);
+    useEffect(() => {
+      const fetchRecipes = async () => {
+        try {
+          const response = await axios.get(`${API_URL}/api/Recipes?userId=${userId}`);        
+            setRecipes(response.data);
+          } catch(error) {
+            console.error(error);
+          }
+      };  
+      fetchRecipes();
+    }, [userId]);
 
-  useEffect(() => {
-    setKey(tabKey);
-  }, [tabKey]);
-
-  const handleSelect = (k) => {
-    setKey(k);
-    navigate(`/frame?tab=${k}`);
+    const handleSelect = (k) => {
+      setActiveTab(k);
   };
 
   return (
@@ -51,7 +50,7 @@ const MainFrame = ({ userInfo }) => {
         <div className="col-10 mx-auto border m-3">
           <Tabs
             id="controlled-tab-example"
-            activeKey={key}
+            activeKey={activeTab}
             onSelect={handleSelect}
             className="tabs mb-3 m-1"
           >
@@ -60,20 +59,22 @@ const MainFrame = ({ userInfo }) => {
               title="Planification de la semaine"
               tabClassName="border rounded-top m-1 tab tab--planning"
             >
-              <Planning history={navigate} userId={userId} />
+              <Planning userId={userId} />
             </Tab>
-
             <Tab
               eventKey="ingredients"
               title="Ingrédients de la semaine"
               tabClassName="border rounded-top m-1 tab tab--ingredients"
-            ></Tab>
+            >              
+            </Tab>
             <Tab
               eventKey="recipes"
               title="Liste des recettes"
               tabClassName="border rounded-top m-1 tab tab--recipes"
             >
-              <RecipesList userId={userId} />
+              <RecipesList 
+                userId={userId}
+                recipes={recipes} />
             </Tab>
           </Tabs>
         </div>
@@ -82,9 +83,4 @@ const MainFrame = ({ userInfo }) => {
   );
 };
 
-// export default Frame;
-//eslint-disable-next-line
-export default function (props) {
-  const history = useNavigate();
-  return <MainFrame {...props} history={history} />;
-}
+export default MainFrame;

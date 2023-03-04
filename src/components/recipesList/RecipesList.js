@@ -1,34 +1,22 @@
 import React from "react";
-import axios from "axios";
 import "./RecipesList.scss";
 import RecipeSearch from "./RecipeSearch.js";
 import RecipeCard from "./RecipeCard.js";
 import RecipeAdd from "./RecipeAdd.js";
 
 function RecipesList(props) {
-    const userId = {props};
-
-    const allRecipes = () => {
-        axios
-            .get(`http://localhost:8000/api/Recipes?userId=${props.userId}`)
-            .then((response) => {
-                return response.data;
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    };
-    
-      console.log(allRecipes);
-
-    
-    return (
+    console.error("recipesList : " + props.recipes)
+    return (        
         <div>
-            <RecipeSearch userId={userId} />
+            <RecipeSearch 
+                userId={props.userId}
+            />
             <RecipeCard
-                userId={userId}
-                allRecipes={allRecipes} />
-            <RecipeAdd userId={userId} />
+                userId={props.userId}
+                recipes={props.recipes} />
+            <RecipeAdd 
+                userId={props.userId}
+            />
         </div>
     )
 }

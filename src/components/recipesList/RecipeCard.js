@@ -1,21 +1,9 @@
 import React from "react";
-import axios from "axios";
 import "./RecipeCard.scss";
 
 function RecipeCard(props) {
-  const [mealList, setMealList] = React.useState([props.allRecipes]);
-
-  // const fetchMealListWithIngredient = () => {
-  //   axios.get(`http://localhost:8000/api/Recipes?userId${props.userId}`).then((response) => {
-  //     setMealList(response.data);
-  //   });
-  // };
-
-  // React.useEffect(() => {
-  //   fetchMealListWithIngredient();
-  // }, []);
-
-  
+  const [mealList, setMealList] = React.useState([props.recipes]);
+  console.error("RecipeCard" + props.recipes)
 
   const mealElements = mealList.map((meal) => (
     <div key={meal.recipeId}>
@@ -38,7 +26,9 @@ function RecipeCard(props) {
             </div>
             <div className="col">
               <span className="material-symbols-outlined">cooking</span>
-              <span className="align-top m-1">{meal.cookingTime} min</span>
+              <span className="align-top m-1">
+                {meal.cookingTime} min
+              </span>
             </div>
           </div>
         </div>

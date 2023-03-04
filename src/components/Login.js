@@ -33,7 +33,7 @@ class Login extends React.Component {
       })
       .then((response) => {
         console.log(response.data.message); // Affiche "success"
-        this.props.history("/frame");
+        this.props.history("/mainFrame");
       })
       .catch((error) => {
         console.log(error);
