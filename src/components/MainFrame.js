@@ -1,24 +1,40 @@
 import React, { useState } from "react";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import "./Frame.scss";
+import "./MainFrame.scss";
 import Planning from "./Planning";
-import RecipesList from "./RecipesList";
+import RecipesList from "./recipesList/RecipesList";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import axios from "axios";
 
-const Frame = ({ userInfo }) => {
-   console.log("userInfo", userInfo);
-   const userId = userInfo?.id;
-   console.log("userId", userId);
-
-
+const MainFrame = ({ userInfo }) => {
+  console.log("userInfo", userInfo);
+  const userId = userInfo?.id;
+  console.log("userId", userId);
 
   const navigate = useNavigate();
   let location = useLocation();
   const [key, setKey] = useState("planning");
   const searchParams = new URLSearchParams(location.search);
   const tabKey = searchParams.get("tab") || "planning";
+
+  const [recipes, setRecipes] = useState([]);
+
+  const allRecipes = () => {
+    axios
+      .get(`http://localhost:8000/api/Recipes?userId=${userId}`)
+      .then((response) => {
+        setRecipes(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };  
+
+  useEffect(() => {
+    allRecipes();
+  }, [allRecipes]);
 
   useEffect(() => {
     setKey(tabKey);
@@ -44,7 +60,7 @@ const Frame = ({ userInfo }) => {
               title="Planification de la semaine"
               tabClassName="border rounded-top m-1 tab tab--planning"
             >
-            <Planning history={navigate} userId={userId} />
+              <Planning history={navigate} userId={userId} />
             </Tab>
 
             <Tab
@@ -70,5 +86,5 @@ const Frame = ({ userInfo }) => {
 //eslint-disable-next-line
 export default function (props) {
   const history = useNavigate();
-  return <Frame {...props} history={history} />;
+  return <MainFrame {...props} history={history} />;
 }
