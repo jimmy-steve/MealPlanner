@@ -6,7 +6,6 @@ import AddRecipeButton from "./AddRecipeButton";
 import CardRecipe from "./CardRecipe";
 import DetailModal from "./DetailModal";
 import "./WeekCalendar.scss";
-import FormAddRecipe from "../FormAddRecipe";
 
 function WeekCalendar({ props, dayList }) {
   const navigate = useNavigate();
@@ -34,10 +33,6 @@ function WeekCalendar({ props, dayList }) {
   const [saturdayRecipes, setSaturdayRecipes] = useState([]);
   const [sundayRecipes, setSundayRecipes] = useState([]);
 
-
-
-
-  
   const calculateRecipesForWeek = () => {
     const weekRecipes = [
       sundayRecipes,
@@ -49,13 +44,15 @@ function WeekCalendar({ props, dayList }) {
       saturdayRecipes,
     ];
 
+
+    
+
     weekRecipes.forEach((recipes, i) => {
       const date = currentWeek.startOf("week").add(i, "day");
       const newRecipes = dayList
-        .filter(({ date: recipeDate }) =>
-          dayjs(recipeDate).isSame(date, "day")
-        )
+        .filter(({ date: recipeDate }) => dayjs(recipeDate).isSame(date, "day"))
         .map(({ recipe }) => recipe);
+        console.log("newRecipes", dayList);
       weekRecipes[i] = newRecipes;
     });
 
@@ -68,13 +65,10 @@ function WeekCalendar({ props, dayList }) {
     setSaturdayRecipes(weekRecipes[6]);
   };
 
-
   useEffect(() => {
     calculateRecipesForWeek();
     //eslint-disable-next-line
   }, [dayList, currentWeek]);
-
-
 
   const handleRecipeClick = (cell, index) => {
     if (!cell.active) {
@@ -86,15 +80,18 @@ function WeekCalendar({ props, dayList }) {
     console.log(
       `Clicked on recipe ${recipe.recipeId} ${recipe.title} on ${cell.date} ${cell.active}`
     );
+    console.log("La recette cliquer "+recipe.ingredients[0].name);
     handleModalShow(recipe);
   };
 
   const addRecipe = (cell) => {
-    const eventKey = "recipes";// L'onglet de la page de détail à afficher
-    const searchParams = new URLSearchParams();// Créer un nouvel objet URLSearchParams
-    searchParams.append("tab", eventKey);// Ajouter l'onglet de la page de détail comme paramètre de requête
-    searchParams.append("date", cell.date.format()); // Ajouter la date de la cellule comme paramètre de requête
-    navigate("/frame?" + searchParams.toString());// Naviguer vers la page de détail avec les paramètres de requête
+    console.log("Ajouter une recette");
+    const eventKey = "recipes"; // L'onglet de la page de détail à afficher
+    const searchParams = new URLSearchParams(); // Créer un nouvel objet URLSearchParams
+    searchParams.append("tab", eventKey); // Ajouter l'onglet de la page de détail comme paramètre de requête
+    console.log("/mainFrame?" + searchParams.toString());
+    navigate("/mainFrame?" + searchParams.toString()); // Naviguer vers la page de détail avec les paramètres de requête
+  
   };
 
   function prevWeek() {
@@ -195,11 +192,6 @@ function WeekCalendar({ props, dayList }) {
         showModal={showModal}
         handleModalClose={handleModalClose}
       />
-      {/* <FormAddRecipe
-        showModal={showModal}
-        handleModalClose={handleModalClose}
-      /> */}
-      
     </>
   );
 }

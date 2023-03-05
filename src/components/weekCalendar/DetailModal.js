@@ -52,20 +52,14 @@ export default function ModalDetail({
                   <div className="col m-3">
                     <div className="text-start h3">Instructions :</div>
                     <div className="card-text card">
-                      <p>{selectedRecipe.instructions}</p>
-                      {/* <ul className="list-group">
-                        <li className="list-group-item">
-                          1. Mélangé les ingrédients secs
-                        </li>
-                        <li className="list-group-item">
-                          2. Mélangé les ingrédients humides
-                        </li>
-                        <li className="list-group-item">Morbi leo risus</li>
-                        <li className="list-group-item">
-                          Porta ac consectetur ac
-                        </li>
-                        <li className="list-group-item">Vestibulum at eros</li>
-                      </ul> */}
+                      {/* <p>{selectedRecipe.instructions}</p> */}
+                      <ol>
+                        {selectedRecipe.instructions
+                          .split(/\d+\.\s+/)
+                          .map((instruction, index) => (
+                            <li key={index}>{instruction.trim()}</li>
+                          ))}
+                      </ol>
                     </div>
                   </div>
 
@@ -81,21 +75,15 @@ export default function ModalDetail({
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <th scope="row">2</th>
-                            <td>entier</td>
-                            <td>tomate</td>
-                          </tr>
-                          <tr>
-                            <th scope="row">1</th>
-                            <td>Tasse</td>
-                            <td>Riz</td>
-                          </tr>
-                          <tr>
-                            <th scope="row">1</th>
-                            <td>lbs</td>
-                            <td>Viande</td>
-                          </tr>
+                          {selectedRecipe.ingredients.map(
+                            (ingredient, index) => (
+                              <tr key={index}>
+                                <th scope="row">{ingredient.quantity}</th>
+                                <td>{ingredient.unit}</td>
+                                <td>{ingredient.name}</td>
+                              </tr>
+                            )
+                          )}
                         </tbody>
                       </table>
                     </div>

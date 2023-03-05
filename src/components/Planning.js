@@ -11,9 +11,15 @@ const Planning = (props) => {
 
   const fetchDayListByUser = () => {
     let userIdTest = 100;
-    axios.get("http://localhost:8000/api/Recipes/users/"+userIdTest+"/recipes/weekWithDate").then((response) => {
-      setDayList(response.data);
-    });
+
+    axios
+      .get(
+        "http://localhost:8000/api/Recipes/users/"+userIdTest+"/recipes/WithDate"
+      )
+      .then((response) => {
+        console.log("Ingredient Name "+response.data[0].recipe.ingredients[0].name);
+        setDayList(response.data);
+      });
   };
 
   React.useEffect(() => {

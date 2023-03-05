@@ -8,11 +8,9 @@ import RecipesList from "./recipesList/RecipesList";
 import IngredientsList from "./ingredientsList/IngredientsList";
 import "./MainFrame.scss";
 
-
 const API_URL = "http://localhost:8000";
 
 const useActiveTab = (defaultTab) => {
-  const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const [activeTab, setActiveTab] = useState(
@@ -20,24 +18,27 @@ const useActiveTab = (defaultTab) => {
   );
 
   useEffect(() => {
-    navigate(`?tab=${activeTab}`);
-  }, [activeTab, navigate]);
+    const searchParams = new URLSearchParams(location.search);
+    const activeTab = searchParams.get("tab") || defaultTab;
+    setActiveTab(activeTab);
+  }, [location.search, setActiveTab, defaultTab]);
 
-  return [activeTab, setActiveTab];
+  return [activeTab, setActiveTab, searchParams];
 };
 
 const MainFrame = ({ userInfo }) => {
+  const navigate = useNavigate();
   const userId = userInfo?.id;
 
   const [activeTab, setActiveTab] = useActiveTab("planning");
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
-    const fetchRecipes = async () => {      
+    const fetchRecipes = async () => {
       try {
         const response = await axios.get(
           `${API_URL}/api/Recipes?userId=${userId}`
-        );        
+        );
         setRecipes(response.data);
       } catch (error) {
         console.error(error);
@@ -48,6 +49,7 @@ const MainFrame = ({ userInfo }) => {
 
   const handleSelect = (k) => {
     setActiveTab(k);
+    navigate(`/mainFrame?tab=${k}`);
   };
 
   return (
@@ -71,9 +73,10 @@ const MainFrame = ({ userInfo }) => {
               eventKey="ingredients"
               title="Ingrédients de la semaine"
               tabClassName="border rounded-top m-1 tab tab--ingredients"
-            ><IngredientsList />
+            >
+              <IngredientsList />
             </Tab>
-            
+
             <Tab
               eventKey="recipes"
               title="Liste des recettes"
