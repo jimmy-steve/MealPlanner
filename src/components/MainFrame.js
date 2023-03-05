@@ -4,6 +4,7 @@ import Tabs from "react-bootstrap/Tabs";
 import "./MainFrame.scss";
 import Planning from "./Planning";
 import RecipesList from "./recipesList/RecipesList";
+import IngredientsList from "./ingredientsList/IngredientsList";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
@@ -67,7 +68,9 @@ const MainFrame = ({ userInfo }) => {
               eventKey="ingredients"
               title="Ingrédients de la semaine"
               tabClassName="border rounded-top m-1 tab tab--ingredients"
-            ></Tab>
+            ><IngredientsList />
+            </Tab>
+            
             <Tab
               eventKey="recipes"
               title="Liste des recettes"
