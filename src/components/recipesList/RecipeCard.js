@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./RecipeCard.scss";
 
 function RecipeCard(props) {
-  const hasRecipes = (props.recipes !== null && props.recipes !== undefined);
+  const hasRecipes = Array.isArray(props.recipes) && props.recipes.length > 0;
   const [mealList, setMealList] = useState([]);
 
   useEffect(() => {
@@ -47,10 +47,12 @@ function RecipeCard(props) {
 
   return (
     <div className="mt-5">
-      {hasRecipes && (
-        <b>{props.title}</b>
-      )}  
-      <div className="flex">{mealElements}</div>
+      <b>{props.title}</b>
+      {hasRecipes ? (
+        <div className="flex">{mealElements}</div>
+      ) : (
+        <p className="mt-3 text-secondary">Aucune recette trouvée</p>
+      )}     
     </div>
   );
 }
