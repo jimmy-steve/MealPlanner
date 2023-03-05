@@ -6,8 +6,7 @@ import RecipeCard from "./RecipeCard";
 const API_URL = "http://localhost:8000";
 
 function RecipeSearch(props) {
-  const [mealList, setMealList] = useState(props.recipes);
-  console.log("je suis dans RecipeSearch")
+  const [mealList, setMealList] = useState([]);
 
   const [title, setTitle] = useState("");
   const [ingredients, setIngredients] = useState(["", ""]);
@@ -71,11 +70,10 @@ function RecipeSearch(props) {
       console.error(error);
     }
 
-    console.log("TestMealList:" + mealList)
   }
 
   return (
-    <div className="p-3 mt-2 mb-2">
+    <div>
       <b>Définissez vos critères de recherche</b>
       <form className="row">
         <div className="col-3">
@@ -140,6 +138,7 @@ function RecipeSearch(props) {
       </form>
       < RecipeCard
         recipes={mealList}
+        title="Résultats de votre recherche"
       />
     </div>
   );
