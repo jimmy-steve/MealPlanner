@@ -3,7 +3,6 @@ import axios from "axios";
 import "./Planning.scss";
 import WeekCalendar from "./weekCalendar/WeekCalendar";
 import { useNavigate } from "react-router-dom";
-import "./calendar.scss";
 
 const Planning = (props) => {
   // console.log('On est dans planning avec id de '+props.userId);
@@ -11,7 +10,8 @@ const Planning = (props) => {
   const [DayList, setDayList] = React.useState([]);
 
   const fetchDayListByUser = () => {
-    axios.get("http://localhost:8000/api/Days").then((response) => {
+    let userIdTest = 100;
+    axios.get("http://localhost:8000/api/Recipes/users/"+userIdTest+"/recipes/weekWithDate").then((response) => {
       setDayList(response.data);
     });
   };
