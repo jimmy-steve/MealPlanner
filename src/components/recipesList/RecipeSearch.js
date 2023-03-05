@@ -1,10 +1,14 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import "./RecipeSearch.scss";
+import RecipeCard from "./RecipeCard";
 
 const API_URL = "http://localhost:8000";
 
 function RecipeSearch(props) {
+  const [mealList, setMealList] = useState(props.recipes);
+  console.log("je suis dans RecipeSearch")
+
   const [title, setTitle] = useState("");
   const [ingredients, setIngredients] = useState(["", ""]);
   const [exclusions, setExclusions] = useState(["", ""]);
@@ -62,9 +66,12 @@ function RecipeSearch(props) {
     try {
       const response = await axios.get(queryUrl);
       console.log(response.data);
+      setMealList(response.data)
     } catch (error) {
       console.error(error);
     }
+
+    console.log("TestMealList:" + mealList)
   }
 
   return (
@@ -89,33 +96,33 @@ function RecipeSearch(props) {
           <label htmlFor="ingredient1, ingredient2" className="col-form-label">
             Ingrédients à inclure
           </label>
-          {ingredients.map((ingredient, index) => (
+          {Array.from(Array(2), (_, i) => (         
           <input
-            key={index}
-            id={`ingredient${index + 1}`}
-            name={`ingredient${index + 1}`}
+            key={i}
+            id={`ingredient${i}`}
+            name={`ingredient${i}`}
             type="text"
             placeholder="ingrédient"
             className="form-control mb-1"
-            value={ingredient[index]}
-            onChange={(event) => handleIngredientChange(event, index)}
+            value={ingredients[i]}
+            onChange={(event) => handleIngredientChange(event, i)}
           ></input>
-          ))}
+          ))}               
         </div>
         <div className="col-3">
           <label htmlFor="exlusion1, exclusion2" className="col-form-label">
             Ingrédients à exclure
           </label>
-          {exclusions.map((exclusion, index) => (
+          {Array.from(Array(2), (_, i)  => (
           <input
-            key={index}
-            id={`exclusion${index + 1}`}
-            name={`exclusion${index + 1}`}
+            key={i}
+            id={`exclusion${i}`}
+            name={`exclusion${i}`}
             type="text"
             placeholder="exclusion"
             className="form-control mb-1"
-            value={exclusion[index]}
-            onChange={(event) => handleExclusionChange(event, index)}
+            value={exclusions[i]}
+            onChange={(event) => handleExclusionChange(event, i)}
           ></input>          
           ))}
         </div>
@@ -131,6 +138,9 @@ function RecipeSearch(props) {
           </button>
         </div>
       </form>
+      < RecipeCard
+        recipes={mealList}
+      />
     </div>
   );
 }

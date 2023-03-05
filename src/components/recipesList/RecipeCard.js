@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./RecipeCard.scss";
 
 function RecipeCard(props) {
-  const [mealList, setMealList] = React.useState([props.recipes]);
-  console.error("RecipeCard" + props.recipes)
+  const [mealList, setMealList] = useState([]);
+
+  useEffect(() => {
+    setMealList(props.recipes);
+  }, [props.recipes]);
 
   const mealElements = mealList.map((meal) => (
     <div key={meal.recipeId}>
@@ -17,24 +20,28 @@ function RecipeCard(props) {
         </div>
         <div className="card--text--container">
           <h4>{meal.title}</h4>
-          <div className="row">
-            <div className="col">
-              <span className="material-symbols-outlined">av_timer</span>
+          <div className="row align-items-center">
+            <div className="col-5">
+              <span className="material-symbols-outlined" title="av_timer"></span>
               <span className="align-top m-1">
                 {meal.preparationTime} min
               </span>
             </div>
-            <div className="col">
-              <span className="material-symbols-outlined">cooking</span>
+            <div className="col-5">
+              <span className="material-symbols-outlined" title="cooking"></span>
               <span className="align-top m-1">
                 {meal.cookingTime} min
               </span>
+            </div>
+            <div className="col-2">
+              <button className="material-symbols-outlined  card--button" title="more_vert"></button>              
             </div>
           </div>
         </div>
       </div>
     </div>
   ))
+  
 
   return (
     <div className="flex">
