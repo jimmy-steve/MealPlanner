@@ -37,7 +37,7 @@ export default function Header({ userInfo, setUserInfo }) {
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <div className="navbar-brand mt-2 mt-lg-0">
-            <Link className="nav-link" to="/frame">
+            <Link className="nav-link" to="/mainFrame">
               <h2 className="nav--title">MealPlanner</h2>
             </Link>
           </div>

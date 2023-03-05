@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import Login from "./components/Login";
 import Header from "./components/Header";
-import Frame from "./components/Frame";
+import MainFrame from "./components/MainFrame";
 import Planning from "./components/Planning";
 import AddUser from "./components/AddUser";
 import "./App.css";
@@ -45,7 +45,7 @@ function App() {
           <Route path="addUser" element={<AddUser />} />
           <Route path="*" element={<Login />} />
           <Route path="login" element={<Login />} />
-          <Route path="frame" element={<Frame userInfo={userInfo} />} />
+          <Route path="mainFrame" element={<MainFrame userInfo={userInfo} />} />
           <Route path="planning" element={<Planning />} />
         </Routes>
       </div>
