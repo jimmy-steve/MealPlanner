@@ -9,6 +9,7 @@ import { useEffect } from "react";
 
 
 const Frame = ({ userInfo }) => {
+  const [date, setDate] = useState(null);
    const userId = userInfo?.id;
   const navigate = useNavigate();
   let location = useLocation();
@@ -18,7 +19,10 @@ const Frame = ({ userInfo }) => {
 
   useEffect(() => {
     setKey(tabKey);
-  }, [tabKey]);
+    const searchParams = new URLSearchParams(location.search);
+    const dateParam = searchParams.get("date");
+    setDate(dateParam);
+  }, [tabKey, location.search]);
 
   const handleSelect = (k) => {
     setKey(k);
