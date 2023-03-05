@@ -2,16 +2,15 @@ import dayjs from "dayjs";
 import "dayjs/locale/fr"; // importer la locale "fr"
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Modal, Button } from "react-bootstrap";
 import AddRecipeButton from "./AddRecipeButton";
 import CardRecipe from "./CardRecipe";
+import DetailModal from "./DetailModal";
 import "./WeekCalendar.scss";
 
 function WeekCalendar({ props, dayList }) {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
-  const [selectedRecipeId, setSelectedRecipeId] = useState(null);
 
   const handleModalShow = (recipe) => {
     setSelectedRecipe(recipe);
@@ -198,47 +197,11 @@ function WeekCalendar({ props, dayList }) {
         </div>
       </div>
 
-      {/* Modal */}
-      {selectedRecipe && (
-        <Modal show={showModal} onHide={handleModalClose} size="lg">
-          <Modal.Header closeButton>
-            <Modal.Title>{selectedRecipe.label}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <div className="card mb-3">
-              <div className="row g-0">
-                <div className="col-md-4">
-                  <img
-                    src={"/lasagne.jpg"}
-                    className="img-fluid rounded-start"
-                    alt="recette"
-                  />
-                </div>
-                <div className="col-md-8">
-                  <div className="card-body">
-                    <h5 className="card-title">Card title</h5>
-                    <p className="card-text">
-                      This is a wider card with supporting text below as a
-                      natural lead-in to additional content. This content is a
-                      little bit longer.
-                    </p>
-                    <p className="card-text">
-                      <small className="text-muted">
-                        Last updated 3 mins ago
-                      </small>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleModalClose}>
-              Fermer
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      )}
+      <DetailModal
+        selectedRecipe={selectedRecipe}
+        showModal={showModal}
+        handleModalClose={handleModalClose}
+      />
     </>
   );
 }
