@@ -174,11 +174,6 @@ class AddUser extends React.Component {
   }
 }
 
-// Wrap and export
-// export default function (props) {
-//   const history = useNavigate();
-//   return <AddUser {...props} history={history} />;
-// }
 //eslint-disable-next-line
 export default function (props) {
   const history = useNavigate();
