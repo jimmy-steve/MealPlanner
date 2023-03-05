@@ -41,6 +41,7 @@ const MainFrame = ({ userInfo }) => {
         );
         setRecipes(response.data);
       } catch (error) {
+        setRecipes([]);
         console.error(error);
       }
     };

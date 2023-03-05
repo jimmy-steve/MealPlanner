@@ -66,7 +66,8 @@ function RecipeSearch(props) {
       const response = await axios.get(queryUrl);
       console.log(response.data);
       setMealList(response.data)
-    } catch (error) {
+    } catch (error) {   
+      setMealList([])   
       console.error(error);
     }
 
