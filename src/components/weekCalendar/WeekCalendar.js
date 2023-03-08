@@ -9,7 +9,7 @@ import "./WeekCalendar.scss";
 
 function WeekCalendar({ props, userId, dayList }) {
   const navigate = useNavigate();
-  const [showModal, setShowModal] = useState(false);
+  const [detailModalShow, setDetailModalShow] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
 
   // trouver la semaine courante
@@ -23,14 +23,14 @@ function WeekCalendar({ props, userId, dayList }) {
   const [fridayRecipes, setFridayRecipes] = useState([]);
   const [saturdayRecipes, setSaturdayRecipes] = useState([]);
 
-  const handleModalShow = (recipe) => {
+  const handleDetailModalShow = (recipe) => {
     setSelectedRecipe(recipe);
-    setShowModal(true);
+    setDetailModalShow(true);
   };
 
-  const handleModalClose = () => {
+  const handleDetailModalClose = () => {
     setSelectedRecipe(null);
-    setShowModal(false);
+    setDetailModalShow(false);
   };
 
   const calculateRecipesForWeek = () => {
@@ -85,7 +85,7 @@ function WeekCalendar({ props, userId, dayList }) {
     console.log(
       `Clicked on recipe ${recipe.recipeId} ${recipe.title} on ${cell.date} ${cell.active}`
     );
-    handleModalShow(recipe);
+    handleDetailModalShow(recipe);
   };
 
   const addRecipe = (cell) => {
@@ -193,8 +193,8 @@ function WeekCalendar({ props, userId, dayList }) {
 
       <DetailModal
         selectedRecipe={selectedRecipe}
-        showModal={showModal}
-        handleModalClose={handleModalClose}
+        detailModalShow={detailModalShow}
+        handleDetailModalClose={handleDetailModalClose}
       />
     </>
   );

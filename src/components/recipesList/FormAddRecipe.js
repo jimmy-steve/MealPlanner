@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { useState } from "react";
 
-export default function FormAddRecipe({ showModal, handleModalClose }) {
+export default function FormAddRecipe({ showAddModal, handleAddModalClose }) {
   const [ingredients, setIngredients] = useState([]);
   const [ingredientName, setIngredientName] = useState("");
   const [quantity, setQuantity] = useState(0);
@@ -25,9 +25,8 @@ export default function FormAddRecipe({ showModal, handleModalClose }) {
 
   return (
     <>
-      {/* Modal */}
       {
-        <Modal show={showModal} onHide={handleModalClose} size="xl">
+        <Modal show={showAddModal} onHide={handleAddModalClose} size="xl">
           <Modal.Header closeButton>
             <Modal.Title>{"Ajouter une recette"}</Modal.Title>
           </Modal.Header>
@@ -194,7 +193,7 @@ export default function FormAddRecipe({ showModal, handleModalClose }) {
             </form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleModalClose}>
+            <Button variant="secondary" onClick={handleAddModalClose}>
               Fermer
             </Button>
           </Modal.Footer>
