@@ -5,9 +5,10 @@ import { useNavigate } from "react-router-dom";
 import AddRecipeButton from "./AddRecipeButton";
 import CardRecipe from "./CardRecipe";
 import DetailModal from "./DetailModal";
+import axios from "axios";
 import "./WeekCalendar.scss";
 
-function WeekCalendar({ props, userId, dayList }) {
+function WeekCalendar({ userId }) {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
@@ -22,6 +23,23 @@ function WeekCalendar({ props, userId, dayList }) {
   const [thursdayRecipes, setThursdayRecipes] = useState([]);
   const [fridayRecipes, setFridayRecipes] = useState([]);
   const [saturdayRecipes, setSaturdayRecipes] = useState([]);
+
+  const [DayList, setDayList] = React.useState([]);
+
+  const fetchDayListByUser = () => {
+    var userIdTest = 100;
+    axios
+      .get(
+        "http://localhost:8000/api/Recipes/users/" +
+        userIdTest +
+          "/recipes/WithDate"
+      )
+      .then((response) => {
+        setDayList(response.data);
+      });
+  };
+
+
 
   const handleModalShow = (recipe) => {
     setSelectedRecipe(recipe);
@@ -48,7 +66,7 @@ function WeekCalendar({ props, userId, dayList }) {
       const date = currentWeek.startOf("week").add(i, "day");
       const recipesForDay = [];
 
-      dayList.forEach((DayRecipe) => {
+      DayList.forEach((DayRecipe) => {
         const recipesForDay2 = DayRecipe.recipes.filter((recipe) => {
           return dayjs(DayRecipe.date).isSame(date, "day");
         });
@@ -58,7 +76,7 @@ function WeekCalendar({ props, userId, dayList }) {
         }
       });
       const uniqueRecipesForDay = Array.from(new Set(recipesForDay));
-      weekRecipes[i] = weekRecipes[i].concat(uniqueRecipesForDay);
+      weekRecipes[i] = uniqueRecipesForDay;
     });
 
     setSundayRecipes(weekRecipes[0]);
@@ -70,10 +88,13 @@ function WeekCalendar({ props, userId, dayList }) {
     setSaturdayRecipes(weekRecipes[6]);
   };
 
+
   useEffect(() => {
+    fetchDayListByUser();
     calculateRecipesForWeek();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dayList, currentWeek]);
+  }, [DayList, currentWeek]);
+
 
   const handleRecipeClick = (cell, index) => {
     if (!cell.active) {
@@ -138,24 +159,25 @@ function WeekCalendar({ props, userId, dayList }) {
               className="week-calendar__day-cell col-10"
               onClick={() => handleRecipeClick(cell, j)}
             >
-              <CardRecipe
-                key={j}
-                recipeId={recipe.recipeId}
-                title={recipe.title}
-                pictureUrl={recipe.pictureUrl}
-                index={j}
-              />
+              <div>
+                <CardRecipe
+                  key={j}
+                  recipeId={recipe.recipeId}
+                  title={recipe.title}
+                  pictureUrl={recipe.pictureUrl}
+                  index={j}
+                />
+              </div>
             </div>
           ))}
           {/* Ajouter une case vide si aucune recette n'est planifiée */}
           {!cell.active && (
             <div className="week-calendar__day-cell col-10">
-              <div className="card empty-card"></div>
-              <AddRecipeButton addRecipe={() => addRecipe(cell)} />
               <AddRecipeButton addRecipe={() => addRecipe(cell)} />
               <AddRecipeButton addRecipe={() => addRecipe(cell)} />
             </div>
           )}
+          <AddRecipeButton addRecipe={() => addRecipe(cell)} />
         </div>
       );
     }

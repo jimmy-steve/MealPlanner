@@ -33,6 +33,7 @@ export default function FormAddRecipe({ showModal, handleModalClose }) {
           </Modal.Header>
 
           <Modal.Body>
+            
             <form onSubmit={handleSubmit}>
               <div className="row mb-4">
                 <div className="col">
