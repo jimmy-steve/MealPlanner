@@ -34,10 +34,11 @@ const MainFrame = ({ userInfo }) => {
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
+    var UserIdtest = 100
     const fetchRecipes = async () => {
       try {
         const response = await axios.get(
-          `${API_URL}/api/Recipes?userId=${userId}`
+          `${API_URL}/api/Recipes?userId=${UserIdtest}`
         );
         setRecipes(response.data);
       } catch (error) {
@@ -45,7 +46,7 @@ const MainFrame = ({ userInfo }) => {
         console.error(error);
       }
     };
-    fetchRecipes();
+     fetchRecipes();
   }, [userId]);
 
   const handleSelect = (k) => {

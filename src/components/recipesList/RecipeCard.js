@@ -1,9 +1,23 @@
 import React, { useState, useEffect } from "react";
+import RecipeMoreButton from "./RecipeMoreButton";
 import "./RecipeCard.scss";
 
 function RecipeCard(props) {
   const hasRecipes = Array.isArray(props.recipes) && props.recipes.length > 0;
   const [mealList, setMealList] = useState([]);
+  const [action, setAction] = useState("");
+
+  const handleMoreClick = (recipeId, action) => {
+
+    setAction(action);
+    if (action === "add") {
+      console.log("action ADD");
+      // Perform add action
+    } else if (action === "modify") {
+      console.log("action MODIFY");
+      // Perform modify action
+    }
+  };
 
   useEffect(() => {
     setMealList(props.recipes);
@@ -34,10 +48,11 @@ function RecipeCard(props) {
                 </span>
               )}
             </div>
-            <div className="col-2">
-              <button className="material-symbols-outlined card--button">
-                more_vert
-              </button>
+
+            <div className="col-2 container">
+            <RecipeMoreButton onClick={handleMoreClick} action={action} recipeId={meal.recipeId} />
+
+
             </div>
           </div>
         </div>
