@@ -38,7 +38,7 @@ const MainFrame = ({ userInfo }) => {
     const fetchRecipes = async () => {
       try {
         const response = await axios.get(
-          `${API_URL}/api/Recipes?userId=${UserIdtest}`
+          `${API_URL}/api/Recipes?userId=${userId}`
         );
         setRecipes(response.data);
       } catch (error) {
