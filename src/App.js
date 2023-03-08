@@ -1,11 +1,11 @@
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import React, { useEffect } from "react";
 import axios from "axios";
-import Login from "./components/Login";
+import Login from "./components/user/Login";
 import Header from "./components/Header";
 import MainFrame from "./components/MainFrame";
-import Planning from "./components/Planning";
-import AddUser from "./components/AddUser";
+import Planning from "./components/planning/Planning";
+import AddUser from "./components/user/AddUser";
 import "./App.css";
 
 const UserConnected = ({ setUserInfo, userInfo }) => {
