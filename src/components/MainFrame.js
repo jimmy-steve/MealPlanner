@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import Planning from "./Planning";
+import Planning from "./planning/Planning";
 import RecipesList from "./recipesList/RecipesList";
 import IngredientsList from "./ingredientsList/IngredientsList";
 import "./MainFrame.scss";
@@ -34,10 +34,11 @@ const MainFrame = ({ userInfo }) => {
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
+    var UserIdtest = 100
     const fetchRecipes = async () => {
       try {
         const response = await axios.get(
-          `${API_URL}/api/Recipes?userId=${userId}`
+          `${API_URL}/api/Recipes?userId=${UserIdtest}`
         );
         setRecipes(response.data);
       } catch (error) {
@@ -45,7 +46,7 @@ const MainFrame = ({ userInfo }) => {
         console.error(error);
       }
     };
-    fetchRecipes();
+     fetchRecipes();
   }, [userId]);
 
   const handleSelect = (k) => {

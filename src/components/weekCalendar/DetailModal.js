@@ -29,11 +29,9 @@ export default function ModalDetail({
                 </div>
                 <div className="col-sm-6">
                   <div className="card-body">
-                    <h5 className="">
-                      <h1 className="ms-5 m-2 mb-5 recipe--title">
-                        {selectedRecipe.title}
-                      </h1>
-                    </h5>
+                    <h1 className="ms-5 m-2 mb-5 recipe--title">
+                      {selectedRecipe.title}
+                    </h1>
                     <h4 className="ms-4 mt-4">
                       Temps de préparation :
                       <span className="badge rounded-pill bg-primary me-4 ms-2">

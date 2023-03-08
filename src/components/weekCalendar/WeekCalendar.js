@@ -7,10 +7,21 @@ import CardRecipe from "./CardRecipe";
 import DetailModal from "./DetailModal";
 import "./WeekCalendar.scss";
 
-function WeekCalendar({ props, dayList }) {
+function WeekCalendar({ props, userId, dayList }) {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
+
+  // trouver la semaine courante
+  const [currentWeek, setCurrentWeek] = useState(dayjs().startOf("week"));
+  // initialiser une liste de recettes pour chaque jour de la semaine
+  const [sundayRecipes, setSundayRecipes] = useState([]);
+  const [mondayRecipes, setMondayRecipes] = useState([]);
+  const [tuesdayRecipes, setTuesdayRecipes] = useState([]);
+  const [wednesdayRecipes, setWednesdayRecipes] = useState([]);
+  const [thursdayRecipes, setThursdayRecipes] = useState([]);
+  const [fridayRecipes, setFridayRecipes] = useState([]);
+  const [saturdayRecipes, setSaturdayRecipes] = useState([]);
 
   const handleModalShow = (recipe) => {
     setSelectedRecipe(recipe);
@@ -21,17 +32,6 @@ function WeekCalendar({ props, dayList }) {
     setSelectedRecipe(null);
     setShowModal(false);
   };
-
-  // trouver la semaine courante
-  const [currentWeek, setCurrentWeek] = useState(dayjs().startOf("week"));
-  // initialiser une liste de recettes pour chaque jour de la semaine
-  const [mondayRecipes, setMondayRecipes] = useState([]);
-  const [tuesdayRecipes, setTuesdayRecipes] = useState([]);
-  const [wednesdayRecipes, setWednesdayRecipes] = useState([]);
-  const [thursdayRecipes, setThursdayRecipes] = useState([]);
-  const [fridayRecipes, setFridayRecipes] = useState([]);
-  const [saturdayRecipes, setSaturdayRecipes] = useState([]);
-  const [sundayRecipes, setSundayRecipes] = useState([]);
 
   const calculateRecipesForWeek = () => {
     const weekRecipes = [
@@ -44,16 +44,21 @@ function WeekCalendar({ props, dayList }) {
       saturdayRecipes,
     ];
 
-
-    
-
-    weekRecipes.forEach((recipes, i) => {
+    weekRecipes.forEach((dayOfWeek, i) => {
       const date = currentWeek.startOf("week").add(i, "day");
-      const newRecipes = dayList
-        .filter(({ date: recipeDate }) => dayjs(recipeDate).isSame(date, "day"))
-        .map(({ recipe }) => recipe);
-        console.log("newRecipes", dayList);
-      weekRecipes[i] = newRecipes;
+      const recipesForDay = [];
+
+      dayList.forEach((DayRecipe) => {
+        const recipesForDay2 = DayRecipe.recipes.filter((recipe) => {
+          return dayjs(DayRecipe.date).isSame(date, "day");
+        });
+
+        if (recipesForDay2.length > 0) {
+          recipesForDay.push(...recipesForDay2);
+        }
+      });
+      const uniqueRecipesForDay = Array.from(new Set(recipesForDay));
+      weekRecipes[i] = weekRecipes[i].concat(uniqueRecipesForDay);
     });
 
     setSundayRecipes(weekRecipes[0]);
@@ -67,7 +72,7 @@ function WeekCalendar({ props, dayList }) {
 
   useEffect(() => {
     calculateRecipesForWeek();
-    //eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dayList, currentWeek]);
 
   const handleRecipeClick = (cell, index) => {
@@ -80,18 +85,16 @@ function WeekCalendar({ props, dayList }) {
     console.log(
       `Clicked on recipe ${recipe.recipeId} ${recipe.title} on ${cell.date} ${cell.active}`
     );
-    console.log("La recette cliquer "+recipe.ingredients[0].name);
     handleModalShow(recipe);
   };
 
   const addRecipe = (cell) => {
-    console.log("Ajouter une recette");
     const eventKey = "recipes"; // L'onglet de la page de détail à afficher
     const searchParams = new URLSearchParams(); // Créer un nouvel objet URLSearchParams
     searchParams.append("tab", eventKey); // Ajouter l'onglet de la page de détail comme paramètre de requête
-    console.log("/mainFrame?" + searchParams.toString());
+    searchParams.append("date", cell.date); // Ajouter la date comme paramètre de requête
+    searchParams.append("userId", userId); // Ajouter le userID
     navigate("/mainFrame?" + searchParams.toString()); // Naviguer vers la page de détail avec les paramètres de requête
-  
   };
 
   function prevWeek() {
@@ -121,7 +124,6 @@ function WeekCalendar({ props, dayList }) {
       const date = startOfWeek.add(i, "day");
       const recipes = weekRecipes[i];
       const cell = { date: date, recipes: recipes, active: recipes.length > 0 };
-
       days.push(
         <div key={date.toString()} className="week-calendar__day border mt-3">
           <div className="week-calendar__day-label text-start mx-3">
@@ -149,6 +151,8 @@ function WeekCalendar({ props, dayList }) {
           {!cell.active && (
             <div className="week-calendar__day-cell col-10">
               <div className="card empty-card"></div>
+              <AddRecipeButton addRecipe={() => addRecipe(cell)} />
+              <AddRecipeButton addRecipe={() => addRecipe(cell)} />
               <AddRecipeButton addRecipe={() => addRecipe(cell)} />
             </div>
           )}

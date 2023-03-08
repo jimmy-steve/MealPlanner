@@ -1,9 +1,38 @@
 import React, { useState, useEffect } from "react";
+import RecipeMoreButton from "./RecipeMoreButton";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 import "./RecipeCard.scss";
 
 function RecipeCard(props) {
   const hasRecipes = Array.isArray(props.recipes) && props.recipes.length > 0;
   const [mealList, setMealList] = useState([]);
+  const [action, setAction] = useState("");
+  const location = useLocation();
+
+  const handleMoreClick = (recipeId, action, event) => {
+    setAction(action);
+    if (action === "add") {
+      console.log("action ADD");
+
+      const searchParams = new URLSearchParams(location.search);
+      const dateClicked = searchParams.get("date");
+
+      console.log("Date recu " + dateClicked);
+
+      event.preventDefault();
+      axios.post('http://localhost:8000/api/Days', { dateClicked })
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(error => console.log(error));
+
+      // Perform add action
+    } else if (action === "modify") {
+      console.log("action MODIFY");
+      // Perform modify action
+    }
+  };
 
   useEffect(() => {
     setMealList(props.recipes);
@@ -22,7 +51,9 @@ function RecipeCard(props) {
               {meal.preparationTime !== 0 && (
                 <span>
                   <span className="material-symbols-outlined">av_timer</span>
-                  <span className="align-top m-1">{meal.preparationTime} min</span>
+                  <span className="align-top m-1">
+                    {meal.preparationTime} min
+                  </span>
                 </span>
               )}
             </div>
@@ -34,10 +65,13 @@ function RecipeCard(props) {
                 </span>
               )}
             </div>
-            <div className="col-2">
-              <button className="material-symbols-outlined card--button">
-                more_vert
-              </button>
+
+            <div className="col-2 container">
+              <RecipeMoreButton
+                onClick={handleMoreClick}
+                action={action}
+                recipeId={meal.recipeId}
+              />
             </div>
           </div>
         </div>
@@ -52,7 +86,7 @@ function RecipeCard(props) {
         <div className="flex">{mealElements}</div>
       ) : (
         <p className="mt-3 text-secondary">Aucune recette trouvée</p>
-      )}     
+      )}
     </div>
   );
 }
