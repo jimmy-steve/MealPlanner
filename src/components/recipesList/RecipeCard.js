@@ -3,9 +3,23 @@ import RecipeMoreButton from "./RecipeMoreButton";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import "./RecipeCard.scss";
+import DetailModal from "../weekCalendar/DetailModal";
 
 function RecipeCard(props) {
   const hasRecipes = Array.isArray(props.recipes) && props.recipes.length > 0;
+  const [showModal, setShowModal] = useState(false);
+  const [selectedRecipe, setSelectedRecipe] = useState(null);
+
+  const handleModalShow = (meal) => {
+    setSelectedRecipe(meal);
+    setShowModal(true);
+  };
+
+  const handleModalClose = () => {
+    setSelectedRecipe(null);
+    setShowModal(false);
+  };
+
   const [mealList, setMealList] = useState([]);
   const [action, setAction] = useState("");
   const location = useLocation();
@@ -42,7 +56,7 @@ function RecipeCard(props) {
     <div key={meal.recipeId}>
       <div className="mt-3 me-3 card--container">
         <div className="card--img--container">
-          <img src={meal.pictureUrl} alt={meal.title} className="card--img" />
+          <img src={meal.pictureUrl} alt={meal.title} className="card--img" onClick={() => handleModalShow(meal)} />
         </div>
         <div className="card--text--container">
           <h4>{meal.title}</h4>
@@ -87,6 +101,12 @@ function RecipeCard(props) {
       ) : (
         <p className="mt-3 text-secondary">Aucune recette trouvée</p>
       )}
+
+      <DetailModal
+        selectedRecipe={selectedRecipe}
+        showModal={showModal}
+        handleModalClose={handleModalClose}
+      />   
     </div>
   );
 }
