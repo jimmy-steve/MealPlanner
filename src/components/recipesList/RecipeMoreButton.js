@@ -24,7 +24,7 @@ function RecipesMoreButton(props) {
         >
           <li>
             <div
-              onClick={() => onClick(recipeId, "add")}
+              onClick={(event) => onClick(recipeId, "add", event)}
               className="dropdown-item btn"
             >
               Ajouter
@@ -32,7 +32,7 @@ function RecipesMoreButton(props) {
           </li>
           <li>
             <div
-              onClick={() => onClick(recipeId, "modify")}
+              onClick={(event) => onClick(recipeId, "modify",event)}
               className="dropdown-item btn"
             >
               Modifier

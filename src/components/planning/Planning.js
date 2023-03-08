@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import "./Planning.scss";
-import WeekCalendar from "./weekCalendar/WeekCalendar";
+import WeekCalendar from "../weekCalendar/WeekCalendar";
 import { useNavigate } from "react-router-dom";
 
 const Planning = (props) => {

@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import Planning from "./Planning";
+import Planning from "./planning/Planning";
 import RecipesList from "./recipesList/RecipesList";
 import IngredientsList from "./ingredientsList/IngredientsList";
 import "./MainFrame.scss";

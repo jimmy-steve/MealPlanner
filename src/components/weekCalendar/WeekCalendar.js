@@ -92,7 +92,7 @@ function WeekCalendar({ props, userId, dayList }) {
     const eventKey = "recipes"; // L'onglet de la page de détail à afficher
     const searchParams = new URLSearchParams(); // Créer un nouvel objet URLSearchParams
     searchParams.append("tab", eventKey); // Ajouter l'onglet de la page de détail comme paramètre de requête
-    searchParams.append("date", cell.date.format("YYYY-MM-DD")); // Ajouter la date comme paramètre de requête
+    searchParams.append("date", cell.date); // Ajouter la date comme paramètre de requête
     searchParams.append("userId", userId); // Ajouter le userID
     navigate("/mainFrame?" + searchParams.toString()); // Naviguer vers la page de détail avec les paramètres de requête
   };
