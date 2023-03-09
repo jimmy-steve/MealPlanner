@@ -3,7 +3,7 @@ import React from "react";
 
 function CardRecipe({ title, pictureUrl, recipeId, onAddRecipe }) {
   return (
-    <div className="card recipe-card">
+    <div className="card recipe-card mt-2">
       <div className="card-body">
         <img
           src={pictureUrl}

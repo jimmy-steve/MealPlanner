@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import RecipeMoreButton from "./RecipeMoreButton";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
 import axios from "axios";
 import "./RecipeCard.scss";
 import DetailModal from "../weekCalendar/DetailModal";
@@ -23,23 +24,34 @@ function RecipeCard(props) {
   const [mealList, setMealList] = useState([]);
   const [action, setAction] = useState("");
   const location = useLocation();
+  const navigate = useNavigate();
 
   const handleMoreClick = (recipeId, action, event) => {
     setAction(action);
     if (action === "add") {
       console.log("action ADD");
-
       const searchParams = new URLSearchParams(location.search);
       const dateClicked = searchParams.get("date");
-
-      console.log("Date recu " + dateClicked);
-
+      const dateString = dayjs(dateClicked).format("YYYY-MM-DD");
+      console.log("dateString: " + dateString);
       event.preventDefault();
-      axios.post('http://localhost:8000/api/Days', { dateClicked })
-        .then(response => {
+      axios
+        .post(
+          "http://localhost:8000/AddRecipeToDayWithDate?recipeId=" +
+            recipeId +
+            "&date=" +
+            dateString
+        )
+        .then((response) => {
           console.log(response.data);
+          const eventKey = "planning";
+          const source = "add";
+          const searchParams = new URLSearchParams();
+          searchParams.append("tab", eventKey);
+          searchParams.append("source", source);
+          navigate("/mainFrame?" + searchParams.toString());
         })
-        .catch(error => console.log(error));
+        .catch((error) => console.log(error));
 
       // Perform add action
     } else if (action === "modify") {
