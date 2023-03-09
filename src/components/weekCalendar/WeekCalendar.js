@@ -7,6 +7,7 @@ import CardRecipe from "./CardRecipe";
 import DetailModal from "./DetailModal";
 import axios from "axios";
 import "./WeekCalendar.scss";
+import { handleFocus } from "./handleFocus"; 
 
 function WeekCalendar({ userId }) {
   const navigate = useNavigate();
@@ -25,20 +26,14 @@ function WeekCalendar({ userId }) {
   const [saturdayRecipes, setSaturdayRecipes] = useState([]);
 
   const [DayList, setDayList] = React.useState([]);
+  
 
-  const fetchDayListByUser = () => {
-    var userIdTest = 100;
-    axios
-      .get(
-        "http://localhost:8000/api/Recipes/users/" +
-        userIdTest +
-          "/recipes/WithDate"
-      )
-      .then((response) => {
-        setDayList(response.data);
-      });
-  };
-
+  useEffect(() => {
+    window.addEventListener("focus", () => handleFocus(setDayList, userId)); // utiliser la fonction handleFocus ici
+    return () => {
+      window.removeEventListener("focus", () => handleFocus(setDayList, userId));
+    };
+  }, []);
 
 
   const handleModalShow = (recipe) => {
@@ -61,6 +56,7 @@ function WeekCalendar({ userId }) {
       fridayRecipes,
       saturdayRecipes,
     ];
+    
 
     weekRecipes.forEach((dayOfWeek, i) => {
       const date = currentWeek.startOf("week").add(i, "day");
@@ -70,10 +66,7 @@ function WeekCalendar({ userId }) {
         const recipesForDay2 = DayRecipe.recipes.filter((recipe) => {
           return dayjs(DayRecipe.date).isSame(date, "day");
         });
-
-        if (recipesForDay2.length > 0) {
-          recipesForDay.push(...recipesForDay2);
-        }
+        recipesForDay.push(...recipesForDay2);
       });
       const uniqueRecipesForDay = Array.from(new Set(recipesForDay));
       weekRecipes[i] = uniqueRecipesForDay;
@@ -88,10 +81,29 @@ function WeekCalendar({ userId }) {
     setSaturdayRecipes(weekRecipes[6]);
   };
 
+  
+
+  const fetchDayListByUser = () => {
+    var userIdTest = 100;
+    axios
+      .get(
+        "http://localhost:8000/api/Recipes/users/" +
+        userIdTest +
+          "/recipes/WithDate"
+      )
+      .then((response) => {
+        setDayList(response.data);
+      });
+  };
+
+
+
+
 
   useEffect(() => {
-    fetchDayListByUser();
+    //fetchDayListByUser();
     calculateRecipesForWeek();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [DayList, currentWeek]);
 
@@ -121,6 +133,7 @@ function WeekCalendar({ userId }) {
   function prevWeek() {
     const newCurrentWeek = currentWeek.subtract(1, "week");
     setCurrentWeek(newCurrentWeek);
+
   }
 
   function nextWeek() {
@@ -147,16 +160,16 @@ function WeekCalendar({ userId }) {
       const cell = { date: date, recipes: recipes, active: recipes.length > 0 };
       days.push(
         <div key={date.toString()} className="week-calendar__day border mt-3">
-          <div className="week-calendar__day-label text-start mx-3">
-            {date.locale("fr").format("dddd")}
-            <span className="week-calendar__day-number mx-3 text-end">
+          <div className="week-calendar__day-label text-start mx-3 recipe--title">
+            {date.locale("fr").format("dddd").toLocaleUpperCase()}
+            <span className="week-calendar__day-number ms-5">
               {date.format("D")}
             </span>
           </div>
           {cell.recipes.map((recipe, j) => (
             <div
               key={`${date.toString()}-${j}`}
-              className="week-calendar__day-cell col-10"
+              className="week-calendar__day-cell "
               onClick={() => handleRecipeClick(cell, j)}
             >
               <div>
