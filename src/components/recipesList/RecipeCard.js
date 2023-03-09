@@ -31,8 +31,10 @@ function RecipeCard(props) {
         .then((response) => {
           console.log(response.data);
           const eventKey = "planning";
+          const source = "add";
           const searchParams = new URLSearchParams();
           searchParams.append("tab", eventKey);
+          searchParams.append("source", source);
           navigate("/mainFrame?" + searchParams.toString());
         })
         .catch((error) => console.log(error));

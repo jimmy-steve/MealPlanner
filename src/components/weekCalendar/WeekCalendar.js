@@ -13,7 +13,6 @@ function WeekCalendar({ userId }) {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
-
   // trouver la semaine courante
   const [currentWeek, setCurrentWeek] = useState(dayjs().startOf("week"));
   // initialiser une liste de recettes pour chaque jour de la semaine
@@ -31,7 +30,8 @@ function WeekCalendar({ userId }) {
   useEffect(() => {
     window.addEventListener("focus", () => handleFocus(setDayList, userId)); // utiliser la fonction handleFocus ici
     return () => {
-      window.removeEventListener("focus", () => handleFocus(setDayList, userId));
+      fetchDayListByUser();
+       window.removeEventListener("focus", () => handleFocus(setDayList, userId));
     };
   }, []);
 
@@ -96,11 +96,16 @@ function WeekCalendar({ userId }) {
       });
   };
 
+  useEffect(() => {
+    fetchDayListByUser();
+  }, []);
 
 
 
 
   useEffect(() => {
+    //A Activer pour le test
+    //TODO  a verifier
     //fetchDayListByUser();
     calculateRecipesForWeek();
 
@@ -172,7 +177,7 @@ function WeekCalendar({ userId }) {
               className="week-calendar__day-cell "
               onClick={() => handleRecipeClick(cell, j)}
             >
-              <div>
+              <div> 
                 <CardRecipe
                   key={j}
                   recipeId={recipe.recipeId}
