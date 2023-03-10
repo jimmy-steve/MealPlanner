@@ -8,6 +8,7 @@ import Planning from "./planning/Planning";
 import RecipesList from "./recipesList/RecipesList";
 import IngredientsList from "./ingredientsList/IngredientsList";
 import "./MainFrame.scss";
+import UserIdContext from "./userIdContext";
 
 const API_URL = "http://localhost:8000";
 
@@ -31,15 +32,19 @@ const useActiveTab = (defaultTab) => {
 const MainFrame = ({ userInfo }) => {
   const navigate = useNavigate();
   const userId = userInfo?.id;
+
+  console.log("userId", userId);
   const location = useLocation();
   const [activeTab, setActiveTab] = useActiveTab("planning");
   const [recipes, setRecipes] = useState([]);
 
   useInterval(() => {
+
     const fetchRecipes = async () => {
+      var userIdTest = 100;
       try {
         const response = await axios.get(
-          `${API_URL}/api/Recipes?userId=${userId}`
+          `${API_URL}/api/Recipes?userId=${userIdTest}`
         );
         setRecipes(response.data);
       } catch (error) {
@@ -50,10 +55,11 @@ const MainFrame = ({ userInfo }) => {
      fetchRecipes();
   }, 5000);
 
+
   const handleSelect = (k) => {
     const searchParams = new URLSearchParams(location.search);
     const source = searchParams.get("source");
-    if (source === "add") {  
+    if (source === "add") {
       console.log("source ADD");
     }
     setActiveTab(k);
@@ -76,7 +82,9 @@ const MainFrame = ({ userInfo }) => {
               title="Planification de la semaine"
               tabClassName="border rounded-top m-1 tab tab--planning"
             >
-              <Planning userId={userId} />
+              <UserIdContext.Provider value={userId}>
+                <Planning />
+              </UserIdContext.Provider>
             </Tab>
             <Tab
               eventKey="ingredients"

@@ -16,6 +16,7 @@ const UserConnected = ({ setUserInfo, userInfo }) => {
     setUserInfo(null);
     axios.get("http://localhost:8000/api/Auth/user").then(
       (response) => {
+        console.log("Lasource"+ response.data);
         setUserInfo({
           firstName: response.data.firstName,
           id: response.data.id,

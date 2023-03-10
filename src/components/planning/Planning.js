@@ -2,13 +2,14 @@ import React from "react";
 import "./Planning.scss";
 import WeekCalendar from "../weekCalendar/WeekCalendar";
 import { useNavigate } from "react-router-dom";
-
-const Planning = ({userId}) => {
+import UserIdContext from "../userIdContext";
+const Planning = () => {
   const history = useNavigate();
-
+  const userId = React.useContext(UserIdContext);
+  console.log("userId by the Context : ", userId);
   return (
     <div className="container-fluid">
-      <WeekCalendar userId={userId} history={history} />
+      <WeekCalendar history={history} />
     </div>
   );
 };
