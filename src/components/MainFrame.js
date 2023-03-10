@@ -40,9 +40,10 @@ const MainFrame = ({ userInfo }) => {
   useEffect(() => {
 
     const fetchRecipes = async () => {
+      var userIdTest = 100;
       try {
         const response = await axios.get(
-          `${API_URL}/api/Recipes?userId=${userId}`
+          `${API_URL}/api/Recipes?userId=${userIdTest}`
         );
         setRecipes(response.data);
       } catch (error) {

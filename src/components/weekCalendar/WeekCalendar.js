@@ -77,9 +77,7 @@ function WeekCalendar() {
   const fetchDayListByUser = useCallback(() => {
     if (userId) {
       axios
-        .get(
-          `http://localhost:8000/api/Recipes/users/100/recipes/WithDate`
-        )
+        .get(`http://localhost:8000/api/Recipes/users/100/recipes/WithDate`)
         .then((response) => {
           setDayList(response.data);
         });
@@ -93,9 +91,8 @@ function WeekCalendar() {
   useEffect(() => {
     //A Activer pour le test
     //TODO  A décommenter pour la prod
-    fetchDayListByUser();
 
-
+    //fetchDayListByUser();
 
     calculateRecipesForWeek();
 
@@ -167,6 +164,7 @@ function WeekCalendar() {
             >
               <div>
                 <CardRecipe
+                  date={cell.date}
                   key={j}
                   recipeId={recipe.recipeId}
                   title={recipe.title}
