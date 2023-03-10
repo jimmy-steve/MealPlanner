@@ -1,31 +1,34 @@
 import React, { useState } from "react";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
-import Dropdown from "react-bootstrap/Dropdown";
-import DropdownToggle from "react-bootstrap/esm/DropdownToggle";
-import DropdownMenu from "react-bootstrap/esm/DropdownMenu";
-import DropdownItem from "react-bootstrap/esm/DropdownItem";
-import Form from "react-bootstrap/Form";
+import { Modal, Button, Dropdown, Form } from "react-bootstrap";
+import axios from "axios";
 
-export default function FormAddRecipe({ showAddModal, handleAddModalClose }) {
+export default function FormAddRecipe(props) {
+  const API_URL = "http://localhost:8000";
   const [title, setTitle] = useState("");
   const [preparationTime, setPreparationTime] = useState("");
+  const [cookingTime, setCookingTime] = useState("");
   const [servings, setServings] = useState("");
-  const [image, setImage] = useState("");
+  const [pictureUrl, setPictureUrl] = useState("");
   const [instructions, setInstructions] = useState("");
   const [ingredients, setIngredients] = useState([]);
   const [ingredientName, setIngredientName] = useState("");
   const [ingredientQuantity, setIngredientQuantity] = useState("");
   const [ingredientUnit, setIngredientUnit] = useState("");
   const [selectedOption, setSelectedOption] = useState("");
+  const userProfileId = props.userId;
 
   const handleAddIngredient = (e) => {
     e.preventDefault();
+    // if (!ingredientName || !ingredientQuantity || !ingredientUnit) {
+    //   alert("Veuillez remplir tous les champs de l'ingrédient");
+    //   return;
+    // }
+
     const newIngredient = {
       name: ingredientName,
       quantity: ingredientQuantity,
       unit: ingredientUnit,
-      category: selectedOption
+      category: selectedOption.value,
     };
     setIngredients([...ingredients, newIngredient]);
     setIngredientName("");
@@ -34,16 +37,29 @@ export default function FormAddRecipe({ showAddModal, handleAddModalClose }) {
     setSelectedOption("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const recipe = {
       title,
-      preparationTime,
+      pictureUrl,
+      instructions,
       servings,
-      image,
-      instructions
+      preparationTime,
+      cookingTime,
+      ingredients,
+      userProfileId
     };
-    // Call the function to handle the form submission
+
+    try {
+      const response = await axios.post(`${API_URL}/api/Recipes`, recipe, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const options = [
@@ -59,20 +75,47 @@ export default function FormAddRecipe({ showAddModal, handleAddModalClose }) {
     { value: "9", label: "Condiments" },
   ];
 
+  function displayCategory(category) {
+    switch (category) {
+      case 0:
+        return "Fruits - Légumes";
+      case 1:
+        return "Viande";
+      case 2:
+        return "Poisson";
+      case 3:
+        return "Produits laitiers";
+      case 4:
+        return "Boissons";
+      case 5:
+        return "Céréales";
+      case 6:
+        return "Sucreries";
+      case 7:
+        return "Légumineuses";
+      case 8:
+        return "Graisses";
+      case 9:
+        return "Condiments";
+    }
+  }
+
+  console.log(displayCategory(0));
+
   return (
     <>
       {
-        <Modal show={showAddModal} onHide={handleAddModalClose} size="xl">
+        <Modal show={props.showAddModal} onHide={props.handleAddModalClose} size="xl">
           <Modal.Header closeButton>
             <Modal.Title>Ajouter une recette</Modal.Title>
           </Modal.Header>
 
-          <Modal.Body>
-            <Form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit}>
+            <Modal.Body>
               <div className="row mb-4">
                 <div className="col">
                   <div className="form-outline bg-light border rounded-3">
-                    <input
+                    <Form.Control
                       type="text"
                       id="title"
                       className="form-control"
@@ -80,57 +123,65 @@ export default function FormAddRecipe({ showAddModal, handleAddModalClose }) {
                       onChange={(e) => setTitle(e.target.value)}
                       required
                     />
-                    <label className="form-label" htmlFor="title">
-                      Nom de la recette
-                    </label>
+                    <Form.Label htmlFor="title">Nom de la recette</Form.Label>
                   </div>
                 </div>
               </div>
               <div className="row mb-4">
                 <div className="col">
                   <div className="form-outline bg-light border rounded-3">
-                    <input
+                    <Form.Control
                       type="number"
                       id="preparationTime"
-                      className="form-control"
                       value={preparationTime}
                       onChange={(e) => setPreparationTime(e.target.value)}
                     />
-                    <label className="form-label" htmlFor="preparationTime">
+                    <Form.Label htmlFor="preparationTime">
                       Temps de préparation
-                    </label>
+                    </Form.Label>
                   </div>
                 </div>
               </div>
               <div className="row mb-4">
                 <div className="col">
                   <div className="form-outline bg-light border rounded-3">
-                    <input
+                    <Form.Control
+                      type="number"
+                      id="cookingTime"
+                      value={cookingTime}
+                      onChange={(e) => setCookingTime(e.target.value)}
+                    />
+                    <Form.Label htmlFor="cookingTime">
+                      Temps de cuisson
+                    </Form.Label>
+                  </div>
+                </div>
+              </div>
+              <div className="row mb-4">
+                <div className="col">
+                  <div className="form-outline bg-light border rounded-3">
+                    <Form.Control
                       type="number"
                       id="servings"
-                      className="form-control"
                       value={servings}
                       onChange={(e) => setServings(e.target.value)}
                     />
-                    <label className="form-label" htmlFor="servings">
+                    <Form.Label htmlFor="servings">
                       Nombre de portions
-                    </label>
+                    </Form.Label>
                   </div>
                 </div>
               </div>
               <div className="row mb-4">
                 <div className="col">
                   <div className="form-outline bg-light border rounded-3">
-                    <input
+                    <Form.Control
                       type="text"
                       id="image"
-                      className="form-control"
-                      value={image}
-                      onChange={(e) => setImage(e.target.value)}
+                      value={pictureUrl}
+                      onChange={(e) => setPictureUrl(e.target.value)}
                     />
-                    <label className="form-label" htmlFor="image">
-                      Url de l'image
-                    </label>
+                    <Form.Label htmlFor="image">Url de l'image</Form.Label>
                   </div>
                 </div>
               </div>
@@ -154,16 +205,14 @@ export default function FormAddRecipe({ showAddModal, handleAddModalClose }) {
               </div> */}
 
               <div className="form-outline mb-4 bg-light border rounded-3">
-                <textarea
-                  className="form-control"
+                <Form.Control
                   id="instructions"
-                  rows="4"
+                  as="textarea"
+                  rows={4}
                   value={instructions}
                   onChange={(e) => setInstructions(e.target.value)}
-                ></textarea>
-                <label className="form-label" htmlFor="instructions">
-                  Instructions
-                </label>
+                ></Form.Control>
+                <Form.Label htmlFor="instructions">Instructions</Form.Label>
               </div>
 
               <hr />
@@ -172,62 +221,55 @@ export default function FormAddRecipe({ showAddModal, handleAddModalClose }) {
                 <div className="row">
                   <div className="col-3">
                     <div className="form-outline bg-light border rounded-3">
-                      <input
+                      <Form.Control
                         type="text"
                         id="ingredientName"
-                        className="form-control"
                         value={ingredientName}
                         onChange={(e) => setIngredientName(e.target.value)}
                       />
-                      <label className="form-label" htmlFor="ingredientName">
-                        Nom
-                      </label>
+                      <Form.Label htmlFor="ingredientName">Nom</Form.Label>
                     </div>
                   </div>
                   <div className="col-2">
                     <div className="form-outline bg-light border rounded-3">
-                      <input
+                      <Form.Control
                         type="number"
                         id="ingredientQuantity"
-                        className="form-control"
                         value={ingredientQuantity}
                         onChange={(e) => setIngredientQuantity(e.target.value)}
                       />
-                      <label className="form-label" htmlFor="ingredientQuantity">
+                      <Form.Label htmlFor="ingredientQuantity">
                         Quantité
-                      </label>
+                      </Form.Label>
                     </div>
                   </div>
                   <div className="col-2">
                     <div className="form-outline bg-light border rounded-3">
-                      <input
+                      <Form.Control
                         type="text"
                         id="ingredientUnit"
-                        className="form-control"
                         value={ingredientUnit}
                         onChange={(e) => setIngredientUnit(e.target.value)}
                       />
-                      <label className="form-label" forHtml="ingredientUnit">
-                        Unité
-                      </label>
+                      <Form.Label forHtml="ingredientUnit">Unité</Form.Label>
                     </div>
                   </div>
                   <div className="col-3">
                     <Dropdown>
-                      <DropdownToggle variant="light">
+                      <Dropdown.Toggle variant="light">
                         {selectedOption.label || "Catégorie"}
-                      </DropdownToggle>
-                      <DropdownMenu>
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu>
                         {options.map((option) => (
-                          <DropdownItem
+                          <Dropdown.Item
                             key={option.value}
                             value={option.value}
                             onClick={() => setSelectedOption(option)}
                           >
                             {option.label}
-                          </DropdownItem>
+                          </Dropdown.Item>
                         ))}
-                      </DropdownMenu>
+                      </Dropdown.Menu>
                     </Dropdown>
                   </div>
                   <div className="col-1">
@@ -261,7 +303,7 @@ export default function FormAddRecipe({ showAddModal, handleAddModalClose }) {
                             <td>{ing.quantity}</td>
                             <td>{ing.unit}</td>
                             <td>{ing.name}</td>
-                            {/* <td>{ing.selectedOption.label}</td> */}
+                            <td>{displayCategory(ing.category)}</td>
                           </tr>
                         </tbody>
                       ))}
@@ -269,13 +311,17 @@ export default function FormAddRecipe({ showAddModal, handleAddModalClose }) {
                   </div>
                 </div>
               </div>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleAddModalClose}>
-              Fermer
-            </Button>
-          </Modal.Footer>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                variant="secondary"
+                type="submit"
+                onClick={props.handleAddModalClose}
+              >
+                Ajouter
+              </Button>
+            </Modal.Footer>
+          </Form>
         </Modal>
       }
     </>

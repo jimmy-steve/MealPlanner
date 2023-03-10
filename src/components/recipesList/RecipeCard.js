@@ -62,21 +62,25 @@ function RecipeCard(props) {
           <h4>{meal.title}</h4>
           <div className="row">
             <div className="col-5 align-self-end">
-              {meal.preparationTime !== 0 && (
+              {meal.preparationTime !== 0 && meal.preparationTime != null ? (
                 <span>
                   <span className="material-symbols-outlined">av_timer</span>
                   <span className="align-top m-1">
                     {meal.preparationTime} min
                   </span>
                 </span>
-              )}
+              ) : (
+                <span></span>
+              )} 
             </div>
             <div className="col-5 align-self-end">
-              {meal.cookingTime !== 0 && (
+              {meal.cookingTime !== 0 && meal.cookingTime != null ? (
                 <span>
                   <span className="material-symbols-outlined">cooking</span>
                   <span className="align-top m-1">{meal.cookingTime} min</span>
                 </span>
+              ) : (
+                <span></span>
               )}
             </div>
 
