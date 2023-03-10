@@ -4,14 +4,14 @@ import Button from "react-bootstrap/Button";
 
 export default function ModalDetail({
   selectedRecipe,
-  showModal,
-  handleModalClose,
+  showDetailModal,
+  handleDetailModalClose,
 }) {
   return (
     <>
       {/* Modal */}
       {selectedRecipe && (
-        <Modal show={showModal} onHide={handleModalClose} size="xl">
+        <Modal show={showDetailModal} onHide={handleDetailModalClose} size="xl">
           <Modal.Header closeButton>
             <Modal.Title>{selectedRecipe.title || "RecipeDetail"}</Modal.Title>
           </Modal.Header>
@@ -91,7 +91,7 @@ export default function ModalDetail({
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleModalClose}>
+            <Button variant="secondary" onClick={handleDetailModalClose}>
               Fermer
             </Button>
           </Modal.Footer>
