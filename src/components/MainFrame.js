@@ -7,6 +7,7 @@ import Planning from "./planning/Planning";
 import RecipesList from "./recipesList/RecipesList";
 import IngredientsList from "./ingredientsList/IngredientsList";
 import "./MainFrame.scss";
+import UserIdContext from "./userIdContext";
 
 const API_URL = "http://localhost:8000";
 
@@ -21,7 +22,6 @@ const useActiveTab = (defaultTab) => {
     const searchParams = new URLSearchParams(location.search);
     const activeTab = searchParams.get("tab") || defaultTab;
 
-
     setActiveTab(activeTab);
   }, [location.search, setActiveTab, defaultTab]);
 
@@ -31,16 +31,18 @@ const useActiveTab = (defaultTab) => {
 const MainFrame = ({ userInfo }) => {
   const navigate = useNavigate();
   const userId = userInfo?.id;
+
+  console.log("userId", userId);
   const location = useLocation();
   const [activeTab, setActiveTab] = useActiveTab("planning");
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
-    var UserIdtest = 100
+    var UserIdtest = 100;
     const fetchRecipes = async () => {
       try {
         const response = await axios.get(
-          `${API_URL}/api/Recipes?userId=${userId}`
+          `${API_URL}/api/Recipes?userId=${UserIdtest}`
         );
         setRecipes(response.data);
       } catch (error) {
@@ -48,13 +50,13 @@ const MainFrame = ({ userInfo }) => {
         console.error(error);
       }
     };
-     fetchRecipes();
+    fetchRecipes();
   }, [userId]);
 
   const handleSelect = (k) => {
     const searchParams = new URLSearchParams(location.search);
     const source = searchParams.get("source");
-    if (source === "add") {  
+    if (source === "add") {
       console.log("source ADD");
     }
     setActiveTab(k);
@@ -76,7 +78,9 @@ const MainFrame = ({ userInfo }) => {
               title="Planification de la semaine"
               tabClassName="border rounded-top m-1 tab tab--planning"
             >
-              <Planning userId={userId} />
+              <UserIdContext.Provider value={userId}>
+                <Planning />
+              </UserIdContext.Provider>
             </Tab>
             <Tab
               eventKey="ingredients"
