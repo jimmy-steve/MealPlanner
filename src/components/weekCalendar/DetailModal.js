@@ -34,15 +34,36 @@ export default function ModalDetail({
                     </h1>
                     <h4 className="ms-4 mt-4">
                       Temps de préparation :
-                      <span className="badge rounded-pill bg-primary me-4 ms-2">
-                        {selectedRecipe.preparationTime} min
-                      </span>
+                      {selectedRecipe.preparationTime !== 0 &&
+                      selectedRecipe.preparationTime != null ? (
+                        <span className="badge rounded-pill bg-primary me-4 ms-2">
+                          {selectedRecipe.preparationTime} min
+                        </span>
+                      ) : (
+                        <span> - </span>
+                      )}
                     </h4>
+                    {selectedRecipe.cookingTime !== 0 &&
+                    selectedRecipe.cookingTime != null ? (
+                      <h4 className="ms-4 mt-4">
+                        Temps de cuisson :
+                        <span className="badge rounded-pill bg-primary me-4 ms-2">
+                          {selectedRecipe.cookingTime} min
+                        </span>
+                      </h4>
+                    ) : (
+                      <></>
+                    )}
                     <h4 className="ms-4 mt-4">
                       Nombre de portions :
-                      <span className="badge rounded-pill bg-primary me-4 ms-2">
-                        {selectedRecipe.servings}
-                      </span>
+                      {selectedRecipe.servings !== 0 &&
+                      selectedRecipe.servings != null ? (
+                        <span className="badge rounded-pill bg-primary me-4 ms-2">
+                          {selectedRecipe.servings}
+                        </span>
+                      ) : (
+                        <span> - </span>
+                      )}
                     </h4>
                   </div>
                 </div>
@@ -67,7 +88,7 @@ export default function ModalDetail({
                       <table className="table table-hover text-center">
                         <thead>
                           <tr>
-                            <th scope="col">Qte</th>
+                            <th scope="col">Quantité</th>
                             <th scope="col">Unité</th>
                             <th scope="col">Nom</th>
                           </tr>
@@ -85,6 +106,17 @@ export default function ModalDetail({
                         </tbody>
                       </table>
                     </div>
+                  </div>
+                  <div>
+                    {selectedRecipe.sourceUrl !== 0 &&
+                    selectedRecipe.sourceUrl != null ? (
+                      <p className="ms-4 mt-4">
+                        Lien vers le site internet :
+                        <a href={selectedRecipe.sourceUrl} target="_blank">&nbsp;{selectedRecipe.sourceUrl}</a>
+                      </p>
+                    ) : (
+                      <></>
+                    )}
                   </div>
                 </div>
               </div>

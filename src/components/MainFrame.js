@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import useInterval from "use-interval";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import Tab from "react-bootstrap/Tab";
@@ -21,7 +22,6 @@ const useActiveTab = (defaultTab) => {
     const searchParams = new URLSearchParams(location.search);
     const activeTab = searchParams.get("tab") || defaultTab;
 
-
     setActiveTab(activeTab);
   }, [location.search, setActiveTab, defaultTab]);
 
@@ -35,7 +35,7 @@ const MainFrame = ({ userInfo }) => {
   const [activeTab, setActiveTab] = useActiveTab("planning");
   const [recipes, setRecipes] = useState([]);
 
-  useEffect(() => {
+  useInterval(() => {
     const fetchRecipes = async () => {
       try {
         const response = await axios.get(
@@ -48,7 +48,7 @@ const MainFrame = ({ userInfo }) => {
       }
     };
      fetchRecipes();
-  }, [userId]);
+  }, 5000);
 
   const handleSelect = (k) => {
     const searchParams = new URLSearchParams(location.search);
@@ -59,6 +59,7 @@ const MainFrame = ({ userInfo }) => {
     setActiveTab(k);
     navigate(`/mainFrame?tab=${k}`);
   };
+  console.log("MainFrame Recipes: " + recipes)
 
   return (
     <div className="container-fluid gray">
