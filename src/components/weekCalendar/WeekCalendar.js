@@ -36,7 +36,7 @@ function WeekCalendar({ userId }) {
   }, []);
 
 
-  const handleModalShow = (recipe) => {
+  const handleDetailModalShow = (recipe) => {
     setSelectedRecipe(recipe);
     setDetailModalShow(true);
   };
