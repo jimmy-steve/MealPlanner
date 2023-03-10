@@ -63,6 +63,7 @@ function RecipeCard(props) {
   useEffect(() => {
     setMealList(props.recipes);
   }, [props.recipes]);
+  console.log("Card Recipes: " + mealList)
 
   const mealElements = mealList.map((meal) => (
     <div key={meal.recipeId}>

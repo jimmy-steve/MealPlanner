@@ -9,7 +9,9 @@ export default function FormAddRecipe(props) {
   const [cookingTime, setCookingTime] = useState("");
   const [servings, setServings] = useState("");
   const [pictureUrl, setPictureUrl] = useState("");
+  const [sourceUrl, setSourceUrl] = useState("");
   const [instructions, setInstructions] = useState("");
+  const [notes, setNotes] = useState("");
   const [ingredients, setIngredients] = useState([]);
   const [ingredientName, setIngredientName] = useState("");
   const [ingredientQuantity, setIngredientQuantity] = useState("");
@@ -42,21 +44,23 @@ export default function FormAddRecipe(props) {
     const recipe = {
       title,
       pictureUrl,
+      sourceUrl,
       instructions,
+      notes,
       servings,
       preparationTime,
       cookingTime,
       ingredients,
-      userProfileId
+      userProfileId,
     };
 
     try {
-      const response = await axios.post(`${API_URL}/api/Recipes`, recipe, {
+      await axios.post(`${API_URL}/api/Recipes`, recipe, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-      console.log(response.data);
+      console.log("recette ajoutée");
     } catch (error) {
       console.log(error);
     }
@@ -105,7 +109,11 @@ export default function FormAddRecipe(props) {
   return (
     <>
       {
-        <Modal show={props.showAddModal} onHide={props.handleAddModalClose} size="xl">
+        <Modal
+          show={props.showAddModal}
+          onHide={props.handleAddModalClose}
+          size="xl"
+        >
           <Modal.Header closeButton>
             <Modal.Title>Ajouter une recette</Modal.Title>
           </Modal.Header>
@@ -177,11 +185,11 @@ export default function FormAddRecipe(props) {
                   <div className="form-outline bg-light border rounded-3">
                     <Form.Control
                       type="text"
-                      id="image"
+                      id="pictureUrl"
                       value={pictureUrl}
                       onChange={(e) => setPictureUrl(e.target.value)}
                     />
-                    <Form.Label htmlFor="image">Url de l'image</Form.Label>
+                    <Form.Label htmlFor="pictureUrl">Url de l'image</Form.Label>
                   </div>
                 </div>
               </div>
@@ -203,7 +211,21 @@ export default function FormAddRecipe(props) {
                   </div>
                 </div>
               </div> */}
-
+              <div className="row mb-4">
+                <div className="col">
+                  <div className="form-outline bg-light border rounded-3">
+                    <Form.Control
+                      type="text"
+                      id="sourceUrl"
+                      value={sourceUrl}
+                      onChange={(e) => setSourceUrl(e.target.value)}
+                    />
+                    <Form.Label htmlFor="sourceUrl">
+                      Url du site internet
+                    </Form.Label>
+                  </div>
+                </div>
+              </div>
               <div className="form-outline mb-4 bg-light border rounded-3">
                 <Form.Control
                   id="instructions"
@@ -213,6 +235,16 @@ export default function FormAddRecipe(props) {
                   onChange={(e) => setInstructions(e.target.value)}
                 ></Form.Control>
                 <Form.Label htmlFor="instructions">Instructions</Form.Label>
+              </div>
+              <div className="form-outline mb-4 bg-light border rounded-3">
+                <Form.Control
+                  id="notes"
+                  as="textarea"
+                  rows={3}
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                ></Form.Control>
+                <Form.Label htmlFor="notes">Notes</Form.Label>
               </div>
 
               <hr />
