@@ -5,13 +5,14 @@ import { useNavigate } from "react-router-dom";
 import AddRecipeButton from "./AddRecipeButton";
 import CardRecipe from "./CardRecipe";
 import DetailModal from "./DetailModal";
+import axios from "axios";
 import "./WeekCalendar.scss";
+import { handleFocus } from "./handleFocus"; 
 
-function WeekCalendar({ props, userId, dayList }) {
+function WeekCalendar({ userId }) {
   const navigate = useNavigate();
   const [detailModalShow, setDetailModalShow] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
-
   // trouver la semaine courante
   const [currentWeek, setCurrentWeek] = useState(dayjs().startOf("week"));
   // initialiser une liste de recettes pour chaque jour de la semaine
@@ -23,7 +24,19 @@ function WeekCalendar({ props, userId, dayList }) {
   const [fridayRecipes, setFridayRecipes] = useState([]);
   const [saturdayRecipes, setSaturdayRecipes] = useState([]);
 
-  const handleDetailModalShow = (recipe) => {
+  const [DayList, setDayList] = React.useState([]);
+  
+
+  useEffect(() => {
+    window.addEventListener("focus", () => handleFocus(setDayList, userId)); // utiliser la fonction handleFocus ici
+    return () => {
+      fetchDayListByUser();
+       window.removeEventListener("focus", () => handleFocus(setDayList, userId));
+    };
+  }, []);
+
+
+  const handleModalShow = (recipe) => {
     setSelectedRecipe(recipe);
     setDetailModalShow(true);
   };
@@ -43,22 +56,20 @@ function WeekCalendar({ props, userId, dayList }) {
       fridayRecipes,
       saturdayRecipes,
     ];
+    
 
     weekRecipes.forEach((dayOfWeek, i) => {
       const date = currentWeek.startOf("week").add(i, "day");
       const recipesForDay = [];
 
-      dayList.forEach((DayRecipe) => {
+      DayList.forEach((DayRecipe) => {
         const recipesForDay2 = DayRecipe.recipes.filter((recipe) => {
           return dayjs(DayRecipe.date).isSame(date, "day");
         });
-
-        if (recipesForDay2.length > 0) {
-          recipesForDay.push(...recipesForDay2);
-        }
+        recipesForDay.push(...recipesForDay2);
       });
       const uniqueRecipesForDay = Array.from(new Set(recipesForDay));
-      weekRecipes[i] = weekRecipes[i].concat(uniqueRecipesForDay);
+      weekRecipes[i] = uniqueRecipesForDay;
     });
 
     setSundayRecipes(weekRecipes[0]);
@@ -70,10 +81,37 @@ function WeekCalendar({ props, userId, dayList }) {
     setSaturdayRecipes(weekRecipes[6]);
   };
 
+  
+
+  const fetchDayListByUser = () => {
+    var userIdTest = 100;
+    axios
+      .get(
+        "http://localhost:8000/api/Recipes/users/" +
+        userIdTest +
+          "/recipes/WithDate"
+      )
+      .then((response) => {
+        setDayList(response.data);
+      });
+  };
+
   useEffect(() => {
+    fetchDayListByUser();
+  }, []);
+
+
+
+
+  useEffect(() => {
+    //A Activer pour le test
+    //TODO  a verifier
+    //fetchDayListByUser();
     calculateRecipesForWeek();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dayList, currentWeek]);
+  }, [DayList, currentWeek]);
+
 
   const handleRecipeClick = (cell, index) => {
     if (!cell.active) {
@@ -100,6 +138,7 @@ function WeekCalendar({ props, userId, dayList }) {
   function prevWeek() {
     const newCurrentWeek = currentWeek.subtract(1, "week");
     setCurrentWeek(newCurrentWeek);
+
   }
 
   function nextWeek() {
@@ -126,36 +165,37 @@ function WeekCalendar({ props, userId, dayList }) {
       const cell = { date: date, recipes: recipes, active: recipes.length > 0 };
       days.push(
         <div key={date.toString()} className="week-calendar__day border mt-3">
-          <div className="week-calendar__day-label text-start mx-3">
-            {date.locale("fr").format("dddd")}
-            <span className="week-calendar__day-number mx-3 text-end">
+          <div className="week-calendar__day-label text-start mx-3 recipe--title">
+            {date.locale("fr").format("dddd").toLocaleUpperCase()}
+            <span className="week-calendar__day-number ms-5">
               {date.format("D")}
             </span>
           </div>
           {cell.recipes.map((recipe, j) => (
             <div
               key={`${date.toString()}-${j}`}
-              className="week-calendar__day-cell col-10"
+              className="week-calendar__day-cell "
               onClick={() => handleRecipeClick(cell, j)}
             >
-              <CardRecipe
-                key={j}
-                recipeId={recipe.recipeId}
-                title={recipe.title}
-                pictureUrl={recipe.pictureUrl}
-                index={j}
-              />
+              <div> 
+                <CardRecipe
+                  key={j}
+                  recipeId={recipe.recipeId}
+                  title={recipe.title}
+                  pictureUrl={recipe.pictureUrl}
+                  index={j}
+                />
+              </div>
             </div>
           ))}
           {/* Ajouter une case vide si aucune recette n'est planifiée */}
           {!cell.active && (
             <div className="week-calendar__day-cell col-10">
-              <div className="card empty-card"></div>
-              <AddRecipeButton addRecipe={() => addRecipe(cell)} />
               <AddRecipeButton addRecipe={() => addRecipe(cell)} />
               <AddRecipeButton addRecipe={() => addRecipe(cell)} />
             </div>
           )}
+          <AddRecipeButton addRecipe={() => addRecipe(cell)} />
         </div>
       );
     }

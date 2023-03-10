@@ -20,6 +20,8 @@ const useActiveTab = (defaultTab) => {
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const activeTab = searchParams.get("tab") || defaultTab;
+
+
     setActiveTab(activeTab);
   }, [location.search, setActiveTab, defaultTab]);
 
@@ -29,7 +31,7 @@ const useActiveTab = (defaultTab) => {
 const MainFrame = ({ userInfo }) => {
   const navigate = useNavigate();
   const userId = userInfo?.id;
-
+  const location = useLocation();
   const [activeTab, setActiveTab] = useActiveTab("planning");
   const [recipes, setRecipes] = useState([]);
 
@@ -49,6 +51,11 @@ const MainFrame = ({ userInfo }) => {
   }, [userId]);
 
   const handleSelect = (k) => {
+    const searchParams = new URLSearchParams(location.search);
+    const source = searchParams.get("source");
+    if (source === "add") {  
+      console.log("source ADD");
+    }
     setActiveTab(k);
     navigate(`/mainFrame?tab=${k}`);
   };
