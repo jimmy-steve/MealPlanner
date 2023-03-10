@@ -39,12 +39,10 @@ const MainFrame = ({ userInfo }) => {
   const [recipes, setRecipes] = useState([]);
 
   useInterval(() => {
-
-    const fetchRecipes = async () => {
-      var userIdTest = 100;
+    const fetchRecipes = async () => {      
       try {
         const response = await axios.get(
-          `${API_URL}/api/Recipes?userId=${userIdTest}`
+          `${API_URL}/api/Recipes?userId=${userId}`
         );
         setRecipes(response.data);
       } catch (error) {
